@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Thêm sản phẩm - NỘI THẤT HOME</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+<body>
+<div class="form-group">
+
+    <label for="image">
+        Hình ảnh sản phẩm
+    </label>
+
+    <input
+        type="file"
+        id="image"
+        name="image"
+        accept=".jpg,.jpeg,.png,.webp"
+        required
+    >
+
+</div>
+<div class="admin-product-form">
+
+    <h1>THÊM SẢN PHẨM</h1>
+
+    <p>
+        <a href="/admin/products">
+            ← Quay lại quản lý sản phẩm
+        </a>
+    </p>
+
+
+    <form
+    action="/admin/products/create"
+    method="POST"
+    enctype="multipart/form-data"
+>
+
+<div class="form-group">
+    <label>Hình ảnh sản phẩm:</label>
+
+    <input
+        type="file"
+        name="image"
+        accept="image/*"
+        required
+    >
+</div>
+
+        <div class="form-group">
+
+            <label>
+                Tên sản phẩm
+            </label>
+
+            <input
+                type="text"
+                name="product_name"
+                required
+            >
+
+        </div>
+
+        <div class="form-group">
+    <label for="category_id">Loại sản phẩm</label>
+
+    <select
+        id="category_id"
+        name="category_id"
+        required
+    >
+        <option value="">-- Chọn loại sản phẩm --</option>
+
+        <option value="1">Sofa</option>
+        <option value="2">Bàn</option>
+        <option value="3">Ghế</option>
+        <option value="4">Giường</option>
+        <option value="5">Tủ</option>
+    </select>
+</div>
+
+        <div class="form-group">
+
+            <label>
+                Giá bán
+            </label>
+
+            <input
+                type="number"
+                name="price"
+                min="0"
+                required
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Số lượng tồn kho
+            </label>
+
+            <input
+                type="number"
+                name="stock_quantity"
+                min="0"
+                value="0"
+                required
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Tên file hình ảnh
+            </label>
+
+            <input
+                type="text"
+                name="image"
+                placeholder="Ví dụ: sofa-nordic.jpg"
+            >
+
+            <small>
+                Ảnh phải nằm trong public/images
+            </small>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Mô tả sản phẩm
+            </label>
+
+            <textarea
+                name="description"
+                rows="6"
+            ></textarea>
+
+        </div>
+
+
+        <button type="submit">
+            Thêm sản phẩm
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+
+</html>

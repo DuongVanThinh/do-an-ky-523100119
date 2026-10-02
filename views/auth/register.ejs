@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Đăng ký - NỘI THẤT HOME
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="/css/style.css"
+    >
+
+</head>
+
+<body>
+
+
+<header>
+
+    <div class="container navbar">
+
+        <a href="/" class="logo">
+            NỘI THẤT HOME
+        </a>
+
+        <nav>
+
+            <a href="/">
+                Trang chủ
+            </a>
+
+            <a href="/products">
+                Sản phẩm
+            </a>
+
+            <a href="/login">
+                Đăng nhập
+            </a>
+
+            <a href="/register">
+                Đăng ký
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+<section class="auth-section">
+
+    <div class="auth-box">
+
+        <h1>Đăng ký tài khoản</h1>
+
+        <p class="auth-subtitle">
+            Tạo tài khoản tại NỘI THẤT HOME
+        </p>
+
+
+        <% if (error) { %>
+
+            <div class="alert-error">
+
+                <%= error %>
+
+            </div>
+
+        <% } %>
+
+
+        <% if (success) { %>
+
+            <div class="alert-success">
+
+                <%= success %>
+
+            </div>
+
+        <% } %>
+
+
+        <form
+            action="/register"
+            method="POST"
+        >
+
+            <div class="form-group">
+
+                <label>
+                    Họ và tên
+                </label>
+
+                <input
+                    type="text"
+                    name="full_name"
+                    placeholder="Ví dụ: Nguyễn Văn A"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="example@gmail.com"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Số điện thoại
+                </label>
+
+                <input
+                    type="text"
+                    name="phone"
+                    placeholder="Nhập số điện thoại"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Mật khẩu
+                </label>
+
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Nhập mật khẩu"
+                    minlength="6"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Nhập lại mật khẩu
+                </label>
+
+                <input
+                    type="password"
+                    name="confirm_password"
+                    placeholder="Nhập lại mật khẩu"
+                    minlength="6"
+                    required
+                >
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="auth-btn"
+            >
+                ĐĂNG KÝ
+            </button>
+
+        </form>
+
+
+        <p class="auth-bottom">
+
+            Đã có tài khoản?
+
+            <a href="/login">
+                Đăng nhập
+            </a>
+
+        </p>
+
+    </div>
+
+</section>
+
+
+</body>
+
+</html>

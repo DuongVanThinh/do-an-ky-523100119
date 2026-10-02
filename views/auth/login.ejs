@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Đăng nhập - NỘI THẤT HOME
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="/css/style.css"
+    >
+
+</head>
+
+<body>
+
+
+<header>
+
+    <div class="container navbar">
+
+        <a href="/" class="logo">
+            NỘI THẤT HOME
+        </a>
+
+        <nav>
+
+            <a href="/">
+                Trang chủ
+            </a>
+
+            <a href="/products">
+                Sản phẩm
+            </a>
+
+            <a href="/login">
+                Đăng nhập
+            </a>
+
+            <a href="/register">
+                Đăng ký
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+<section class="auth-section">
+
+    <div class="auth-box">
+
+        <h1>Đăng nhập</h1>
+
+        <p class="auth-subtitle">
+            Chào mừng bạn trở lại
+            NỘI THẤT HOME
+        </p>
+
+
+        <% if (error) { %>
+
+            <div class="alert-error">
+
+                <%= error %>
+
+            </div>
+
+        <% } %>
+
+
+        <form
+            action="/login"
+            method="POST"
+        >
+
+            <div class="form-group">
+
+                <label>Email</label>
+
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Nhập email"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Mật khẩu</label>
+
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Nhập mật khẩu"
+                    required
+                >
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="auth-btn"
+            >
+                ĐĂNG NHẬP
+            </button>
+
+        </form>
+
+
+        <p class="auth-bottom">
+
+            Chưa có tài khoản?
+
+            <a href="/register">
+                Đăng ký ngay
+            </a>
+
+        </p>
+
+    </div>
+
+</section>
+
+
+</body>
+
+</html>

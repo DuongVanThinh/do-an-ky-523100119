@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Đặt hàng thành công - NỘI THẤT HOME
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="/css/style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="container navbar">
+
+        <a
+            href="/"
+            class="logo"
+        >
+            NỘI THẤT HOME
+        </a>
+
+        <nav>
+
+            <a href="/">
+                Trang chủ
+            </a>
+
+            <a href="/products">
+                Sản phẩm
+            </a>
+
+            <a href="/orders">
+                Đơn hàng
+            </a>
+
+            <a href="/logout">
+                Đăng xuất
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+<main class="success-page">
+
+
+    <div class="success-box">
+
+
+        <div class="success-icon">
+            ✓
+        </div>
+
+
+        <h1>
+            ĐẶT HÀNG THÀNH CÔNG!
+        </h1>
+
+
+        <p>
+            Cảm ơn bạn đã mua sắm tại
+            <strong>NỘI THẤT HOME</strong>.
+        </p>
+
+
+        <div class="order-success-info">
+
+
+            <div>
+
+                <span>
+                    Mã đơn hàng
+                </span>
+
+                <strong>
+                    #<%= order.order_id %>
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    Tổng tiền
+                </span>
+
+                <strong>
+
+                    <%= Number(
+                        order.total_amount
+                    ).toLocaleString("vi-VN") %> ₫
+
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    Trạng thái
+                </span>
+
+                <strong>
+                    <%= order.status %>
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    Số điện thoại
+                </span>
+
+                <strong>
+                    <%= order.phone %>
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    Địa chỉ nhận hàng
+                </span>
+
+                <strong>
+                    <%= order.shipping_address %>
+                </strong>
+
+            </div>
+
+
+        </div>
+
+
+        <div class="success-actions">
+
+            <a
+                href="/orders"
+                class="success-primary"
+            >
+                XEM ĐƠN HÀNG
+            </a>
+
+
+            <a
+                href="/products"
+                class="success-secondary"
+            >
+                TIẾP TỤC MUA SẮM
+            </a>
+
+        </div>
+
+
+    </div>
+
+
+</main>
+
+
+</body>
+
+</html>

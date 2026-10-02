@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Đặt hàng - NỘI THẤT HOME
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="/css/style.css"
+    >
+
+</head>
+
+<body>
+
+
+<header>
+
+    <div class="container navbar">
+
+        <a
+            href="/"
+            class="logo"
+        >
+            NỘI THẤT HOME
+        </a>
+
+
+        <nav>
+
+            <a href="/">
+                Trang chủ
+            </a>
+
+            <a href="/products">
+                Sản phẩm
+            </a>
+
+            <a href="/cart">
+                Giỏ hàng
+            </a>
+
+            <span class="user-name">
+
+                Xin chào,
+
+                <strong>
+                    <%= user.full_name %>
+                </strong>
+
+            </span>
+
+            <a href="/logout">
+                Đăng xuất
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+<section class="page-title">
+
+    <h1>THANH TOÁN</h1>
+
+    <p>
+        Hoàn tất thông tin để đặt hàng
+    </p>
+
+</section>
+
+
+<main class="container checkout-page">
+
+
+    <% if (error) { %>
+
+        <div class="alert-error">
+
+            <%= error %>
+
+        </div>
+
+    <% } %>
+
+
+    <div class="checkout-layout">
+
+
+        <!-- =================================
+             THÔNG TIN NHẬN HÀNG
+        ================================== -->
+
+        <div class="checkout-form-box">
+
+            <h2>
+                THÔNG TIN NHẬN HÀNG
+            </h2>
+
+
+            <form
+                action="/checkout"
+                method="POST"
+            >
+
+
+                <div class="form-group">
+
+                    <label>
+                        Họ và tên *
+                    </label>
+
+                    <input
+                        type="text"
+                        name="full_name"
+                        value="<%= customer.full_name %>"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        value="<%= customer.email %>"
+                        readonly
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Số điện thoại *
+                    </label>
+
+                    <input
+                        type="text"
+                        name="phone"
+                        value="<%= customer.phone || '' %>"
+                        placeholder="Ví dụ: 0987654321"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Địa chỉ nhận hàng *
+                    </label>
+
+                    <textarea
+                        name="shipping_address"
+                        rows="5"
+                        placeholder="Ví dụ: Số nhà, đường, phường/xã, quận/huyện, tỉnh/thành phố"
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Phương thức thanh toán
+                    </label>
+
+                    <div class="payment-option">
+
+                        <input
+                            type="radio"
+                            name="payment_method"
+                            value="COD"
+                            checked
+                        >
+
+                        <span>
+                            Thanh toán khi nhận hàng (COD)
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="place-order-btn"
+                >
+                    XÁC NHẬN ĐẶT HÀNG
+                </button>
+
+
+            </form>
+
+        </div>
+
+
+        <!-- =================================
+             ĐƠN HÀNG
+        ================================== -->
+
+        <div class="checkout-summary">
+
+            <h2>
+                ĐƠN HÀNG CỦA BẠN
+            </h2>
+
+
+            <% items.forEach(item => { %>
+
+
+                <div class="checkout-product">
+
+                    <div>
+
+                        <strong>
+                            <%= item.product_name %>
+                        </strong>
+
+                        <p>
+                            Số lượng:
+                            <%= item.quantity %>
+                        </p>
+
+                    </div>
+
+
+                    <strong>
+
+                        <%=
+                            (
+                                Number(item.price) *
+                                Number(item.quantity)
+                            ).toLocaleString("vi-VN")
+                        %> ₫
+
+                    </strong>
+
+                </div>
+
+
+            <% }) %>
+
+
+            <div class="checkout-total">
+
+                <span>
+                    Tổng thanh toán
+                </span>
+
+                <strong>
+
+                    <%= Number(total)
+                        .toLocaleString("vi-VN") %> ₫
+
+                </strong>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</main>
+
+
+</body>
+
+</html>

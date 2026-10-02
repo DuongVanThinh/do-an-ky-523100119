@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Đơn hàng của tôi - NỘI THẤT HOME
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="/css/style.css"
+    >
+
+</head>
+
+<body>
+
+
+<header>
+
+    <div class="container navbar">
+
+        <a href="/" class="logo">
+            NỘI THẤT HOME
+        </a>
+
+        <nav>
+
+            <a href="/">
+                Trang chủ
+            </a>
+
+            <a href="/products">
+                Sản phẩm
+            </a>
+
+            <a href="/cart">
+                Giỏ hàng
+            </a>
+
+            <a href="/orders">
+                Đơn hàng
+            </a>
+
+            <a href="/logout">
+                Đăng xuất
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+<section class="page-title">
+
+    <h1>
+        ĐƠN HÀNG CỦA TÔI
+    </h1>
+
+    <p>
+        Theo dõi các đơn hàng đã đặt
+    </p>
+
+</section>
+
+
+<main class="container orders-page">
+
+
+    <% if (orders.length === 0) { %>
+
+
+        <div class="empty-cart">
+
+            <h2>
+                Bạn chưa có đơn hàng nào
+            </h2>
+
+            <a
+                href="/products"
+                class="continue-shopping"
+            >
+                MUA SẮM NGAY
+            </a>
+
+        </div>
+
+
+    <% } else { %>
+
+
+        <div class="orders-table-wrap">
+
+
+            <table class="orders-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Mã đơn
+                        </th>
+
+                        <th>
+                            Ngày đặt
+                        </th>
+
+                        <th>
+                            Tổng tiền
+                        </th>
+
+                        <th>
+                            Trạng thái
+                        </th>
+
+                        <th>
+                            Thao tác
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+
+                    <% orders.forEach(order => { %>
+
+
+                        <tr>
+
+                            <td>
+                                #<%= order.order_id %>
+                            </td>
+
+
+                            <td>
+
+                                <%= new Date(
+                                    order.created_at
+                                ).toLocaleString(
+                                    "vi-VN"
+                                ) %>
+
+                            </td>
+
+
+                            <td>
+
+                                <strong>
+
+                                    <%= Number(
+                                        order.total_amount
+                                    ).toLocaleString(
+                                        "vi-VN"
+                                    ) %> ₫
+
+                                </strong>
+
+                            </td>
+
+
+                            <td>
+
+                                <span class="order-status">
+
+                                    <%= order.status %>
+
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+                                <a
+                                    href="/orders/<%= order.order_id %>"
+                                    class="view-order-btn"
+                                >
+                                    Xem chi tiết
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+
+                    <% }) %>
+
+
+                </tbody>
+
+            </table>
+
+
+        </div>
+
+
+    <% } %>
+
+
+</main>
+
+
+</body>
+
+</html>
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Đơn hàng của tôi - NỘI THẤT HOME</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+<div class="my-orders-container">
+
+    <div class="my-orders-header">
+
+        <div>
+            <h1>ĐƠN HÀNG CỦA TÔI</h1>
+
+            <p>
+                Theo dõi và xem lại các đơn hàng bạn đã đặt tại
+                <strong>NỘI THẤT HOME</strong>.
+            </p>
+        </div>
+
+        <a href="/">
+            ← Tiếp tục mua sắm
+        </a>
+
+    </div>
+
+    <% if (!orders || orders.length === 0) { %>
+
+        <div class="empty-orders">
+
+            <h2>Bạn chưa có đơn hàng nào</h2>
+
+            <p>
+                Hãy lựa chọn những sản phẩm nội thất phù hợp với
+                không gian của bạn.
+            </p>
+
+            <a href="/products">
+                Xem sản phẩm
+            </a>
+
+        </div>
+
+    <% } else { %>
+
+        <div class="order-list">
+
+            <% orders.forEach(order => { %>
+
+                <div class="order-card">
+
+                    <div class="order-card-header">
+
+                        <div>
+                            <strong>
+                                Đơn hàng #<%= order.order_id %>
+                            </strong>
+                        </div>
+
+                        <div>
+                            <strong>
+                                <%= order.status || "Chờ xác nhận" %>
+                            </strong>
+                        </div>
+
+                    </div>
+
+                    <div class="order-card-body">
+
+                        <p>
+                            <strong>Người nhận:</strong>
+
+                            <%= order.receiver_name || "" %>
+                        </p>
+
+                        <p>
+                            <strong>Số điện thoại:</strong>
+
+                            <%= order.phone || "" %>
+                        </p>
+
+                        <p>
+                            <strong>Địa chỉ giao hàng:</strong>
+
+                            <%= order.shipping_address || "" %>
+                        </p>
+
+                        <p>
+                            <strong>Ngày đặt:</strong>
+
+                            <%= order.created_at
+                                ? new Date(order.created_at)
+                                    .toLocaleString("vi-VN")
+                                : "" %>
+                        </p>
+
+                        <p class="order-total">
+
+                            <strong>Tổng tiền:</strong>
+
+                            <%= Number(order.total_amount || 0)
+                                .toLocaleString("vi-VN") %> đ
+
+                        </p>
+
+                    </div>
+
+                    <div class="order-card-footer">
+
+                        <a
+                            href="/my-orders/<%= order.order_id %>"
+                        >
+                            Xem chi tiết
+                        </a>
+
+                    </div>
+
+                </div>
+
+            <% }); %>
+
+        </div>
+
+    <% } %>
+
+</div>
+
+</body>
+</html>

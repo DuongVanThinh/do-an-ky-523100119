@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Sản phẩm - NỘI THẤT HOME</title>
+
+    <link
+        rel="stylesheet"
+        href="/css/style.css"
+    >
+
+</head>
+
+<body>
+
+
+<header>
+
+    <div class="container navbar">
+
+        <a href="/" class="logo">
+            NỘI THẤT HOME
+        </a>
+
+        <nav>
+
+            <a href="/">
+                Trang chủ
+            </a>
+
+            <a href="/products">
+                Sản phẩm
+            </a>
+
+            <a href="/login">
+                Đăng nhập
+            </a>
+
+            <a href="/register">
+                Đăng ký
+            </a>
+
+            <a href="/cart">
+                Giỏ hàng
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+<section class="page-title">
+
+    <h1>SẢN PHẨM</h1>
+
+    <p>
+        Khám phá bộ sưu tập nội thất tại
+        NỘI THẤT HOME
+    </p>
+
+</section>
+
+
+<main class="container">
+
+    <!-- TÌM KIẾM -->
+
+    <form
+        action="/products/search"
+        method="GET"
+        class="search-form"
+    >
+
+        <input
+            type="text"
+            name="keyword"
+            placeholder="Nhập tên sản phẩm..."
+            value="<%= keyword || '' %>"
+        >
+
+        <select name="category">
+
+            <option value="">
+                Tất cả danh mục
+            </option>
+
+            <option
+                value="1"
+                <%= category == "1" ? "selected" : "" %>
+            >
+                Sofa
+            </option>
+
+            <option
+                value="2"
+                <%= category == "2" ? "selected" : "" %>
+            >
+                Bàn
+            </option>
+
+            <option
+                value="3"
+                <%= category == "3" ? "selected" : "" %>
+            >
+                Ghế
+            </option>
+
+            <option
+                value="4"
+                <%= category == "4" ? "selected" : "" %>
+            >
+                Giường
+            </option>
+
+            <option
+                value="5"
+                <%= category == "5" ? "selected" : "" %>
+            >
+                Tủ
+            </option>
+
+        </select>
+
+        <button type="submit">
+            Tìm kiếm
+        </button>
+
+        <a
+            href="/products"
+            class="reset-btn"
+        >
+            Xóa lọc
+        </a>
+
+    </form>
+
+
+    <section class="product-section">
+
+        <div class="section-title">
+
+            <p>NỘI THẤT HOME</p>
+
+            <h2>
+                Danh sách sản phẩm
+            </h2>
+
+        </div>
+
+
+        <% if (products.length === 0) { %>
+
+            <div class="empty-message">
+
+                <h3>
+                    Không tìm thấy sản phẩm
+                </h3>
+
+                <p>
+                    Hãy thử từ khóa hoặc
+                    danh mục khác.
+                </p>
+
+            </div>
+
+        <% } %>
+
+
+        <div class="product-grid">
+
+            <% products.forEach(product => { %>
+
+                <div class="product-card">
+
+                    <div class="product-image">
+
+                        <img
+                            src="<%= product.image_url %>"
+                            alt="<%= product.product_name %>"
+                            onerror="this.src='/images/ban-an.jpg'"
+                        >
+
+                    </div>
+
+                    <div class="product-info">
+
+                        <p class="product-category">
+
+                            <%= product.category_name %>
+
+                        </p>
+
+                        <h3>
+
+                            <%= product.product_name %>
+
+                        </h3>
+
+                        <p class="price">
+
+                            <%= Number(product.price)
+                                .toLocaleString("vi-VN") %> ₫
+
+                        </p>
+
+                        <p>
+                            Còn:
+                            <strong>
+                                <%= product.stock_quantity %>
+                            </strong>
+                            sản phẩm
+                        </p>
+
+                        <a
+                            href="/products/<%= product.product_id %>"
+                            class="detail-btn"
+                        >
+                            Xem chi tiết
+                        </a>
+
+                    </div>
+
+                </div>
+
+            <% }) %>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    <div class="container">
+
+        <h2>NỘI THẤT HOME</h2>
+
+        <p>
+            Nội thất cho không gian sống hiện đại.
+        </p>
+
+    </div>
+
+</footer>
+
+
+</body>
+
+</html>

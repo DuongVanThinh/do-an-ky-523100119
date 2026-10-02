@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Chi tiết đơn hàng - NỘI THẤT HOME
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="/css/style.css"
+    >
+
+</head>
+
+<body>
+
+
+<header>
+
+    <div class="container navbar">
+
+        <a href="/" class="logo">
+            NỘI THẤT HOME
+        </a>
+
+        <nav>
+
+            <a href="/">
+                Trang chủ
+            </a>
+
+            <a href="/products">
+                Sản phẩm
+            </a>
+
+            <a href="/orders">
+                Đơn hàng
+            </a>
+
+            <a href="/logout">
+                Đăng xuất
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+<main class="container order-detail-page">
+
+
+    <a
+        href="/orders"
+        class="back-orders"
+    >
+        ← Quay lại đơn hàng
+    </a>
+
+
+    <h1>
+        ĐƠN HÀNG #<%= order.order_id %>
+    </h1>
+
+
+    <div class="order-info-box">
+
+
+        <p>
+            <strong>Trạng thái:</strong>
+
+            <%= order.status %>
+        </p>
+<h3>Cập nhật trạng thái đơn hàng</h3>
+
+<form
+    action="/admin/orders/<%= order.order_id %>/status"
+    method="POST"
+>
+    <label>
+        <strong>Trạng thái mới:</strong>
+    </label>
+
+    <select name="status" required>
+
+        <option
+            value="Chờ xác nhận"
+            <%= order.status === "Chờ xác nhận" ? "selected" : "" %>
+        >
+            Chờ xác nhận
+        </option>
+
+        <option
+            value="Đã xác nhận"
+            <%= order.status === "Đã xác nhận" ? "selected" : "" %>
+        >
+            Đã xác nhận
+        </option>
+
+        <option
+            value="Đang giao"
+            <%= order.status === "Đang giao" ? "selected" : "" %>
+        >
+            Đang giao
+        </option>
+
+        <option
+            value="Hoàn thành"
+            <%= order.status === "Hoàn thành" ? "selected" : "" %>
+        >
+            Hoàn thành
+        </option>
+
+        <option
+            value="Đã hủy"
+            <%= order.status === "Đã hủy" ? "selected" : "" %>
+        >
+            Đã hủy
+        </option>
+
+    </select>
+
+    <button type="submit">
+        Cập nhật trạng thái
+    </button>
+</form>
+
+        <p>
+            <strong>Số điện thoại:</strong>
+
+            <%= order.phone %>
+        </p>
+
+
+        <p>
+            <strong>Địa chỉ:</strong>
+
+            <%= order.shipping_address %>
+        </p>
+
+
+        <p>
+            <strong>Ngày đặt:</strong>
+
+            <%= new Date(
+                order.created_at
+            ).toLocaleString("vi-VN") %>
+        </p>
+
+
+    </div>
+
+
+    <h2>
+        SẢN PHẨM
+    </h2>
+
+
+    <% items.forEach(item => { %>
+
+
+        <div class="order-detail-item">
+
+
+            <img
+                src="<%= item.image_url %>"
+                alt="<%= item.product_name %>"
+                onerror="this.src='/images/ban-an.jpg'"
+            >
+
+
+            <div>
+
+                <h3>
+                    <%= item.product_name %>
+                </h3>
+
+                <p>
+                    Đơn giá:
+
+                    <%= Number(
+                        item.unit_price
+                    ).toLocaleString("vi-VN") %> ₫
+                </p>
+
+                <p>
+                    Số lượng:
+                    <%= item.quantity %>
+                </p>
+
+            </div>
+
+
+            <strong>
+
+                <%= Number(
+                    item.subtotal
+                ).toLocaleString("vi-VN") %> ₫
+
+            </strong>
+
+
+        </div>
+
+
+    <% }) %>
+
+
+    <div class="order-detail-total">
+
+        <span>
+            TỔNG THANH TOÁN:
+        </span>
+
+        <strong>
+
+            <%= Number(
+                order.total_amount
+            ).toLocaleString("vi-VN") %> ₫
+
+        </strong>
+
+    </div>
+
+
+</main>
+
+
+</body>
+
+</html>
+
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Chi tiết đơn hàng - NỘI THẤT HOME
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="/css/style.css"
+    >
+
+</head>
+
+<body>
+
+<div class="order-detail-container">
+
+    <a href="/my-orders">
+        ← Quay lại đơn hàng của tôi
+    </a>
+
+    <h1>
+        CHI TIẾT ĐƠN HÀNG #<%= order.order_id %>
+    </h1>
+
+    <div class="order-information">
+
+        <h2>Thông tin giao hàng</h2>
+
+        <p>
+            <strong>Người nhận:</strong>
+            <%= order.receiver_name %>
+        </p>
+
+        <p>
+            <strong>Số điện thoại:</strong>
+            <%= order.phone %>
+        </p>
+
+        <p>
+            <strong>Địa chỉ:</strong>
+            <%= order.shipping_address %>
+        </p>
+
+        <p>
+            <strong>Trạng thái:</strong>
+            <%= order.status %>
+        </p>
+
+        <p>
+            <strong>Ngày đặt:</strong>
+
+            <%= order.created_at
+                ? new Date(order.created_at)
+                    .toLocaleString("vi-VN")
+                : "" %>
+        </p>
+
+    </div>
+
+
+    <h2>Sản phẩm đã đặt</h2>
+
+    <% if (!items || items.length === 0) { %>
+
+        <p>Không tìm thấy sản phẩm trong đơn hàng.</p>
+
+    <% } else { %>
+
+        <table
+            class="order-detail-table"
+            border="1"
+            cellspacing="0"
+            cellpadding="10"
+        >
+
+            <thead>
+
+                <tr>
+                    <th>Sản phẩm</th>
+
+                    <th>Số lượng</th>
+
+                    <th>Đơn giá</th>
+
+                    <th>Thành tiền</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <% items.forEach(item => { %>
+
+                    <tr>
+
+                        <td>
+                            <%= item.product_name %>
+                        </td>
+
+                        <td>
+                            <%= item.quantity %>
+                        </td>
+
+                        <td>
+                            <%= Number(item.unit_price || 0)
+                                .toLocaleString("vi-VN") %> đ
+                        </td>
+
+                        <td>
+                            <%= Number(
+                                item.unit_price * item.quantity
+                            ).toLocaleString("vi-VN") %> đ
+                        </td>
+
+                    </tr>
+
+                <% }); %>
+
+            </tbody>
+
+        </table>
+
+    <% } %>
+<% if (order.status === "Chờ xác nhận") { %>
+
+    <div class="cancel-order">
+
+        <h3>Bạn muốn hủy đơn hàng?</h3>
+
+        <p>
+            Bạn chỉ có thể hủy đơn trước khi cửa hàng xác nhận.
+        </p>
+
+        <form
+            action="/my-orders/<%= order.order_id %>/cancel"
+            method="POST"
+            onsubmit="return confirm('Bạn chắc chắn muốn hủy đơn hàng này?');"
+        >
+
+            <button type="submit">
+                Hủy đơn hàng
+            </button>
+
+        </form>
+
+    </div>
+
+<% } %>
+
+    <div class="order-detail-total">
+
+        <h2>
+            Tổng thanh toán:
+            <%= Number(order.total_amount || 0)
+                .toLocaleString("vi-VN") %> đ
+        </h2>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

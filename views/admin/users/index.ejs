@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Quản lý khách hàng - NỘI THẤT HOME
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="/css/style.css"
+    >
+
+</head>
+
+<body>
+
+<div class="admin-container">
+
+    <h1>QUẢN LÝ KHÁCH HÀNG</h1>
+
+    <p>
+        <a href="/admin">
+            ← Quay lại Dashboard
+        </a>
+    </p>
+
+    <% if (!users || users.length === 0) { %>
+
+        <p>Chưa có tài khoản khách hàng.</p>
+
+    <% } else { %>
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>ID</th>
+
+                    <th>Họ tên</th>
+
+                    <th>Email</th>
+
+                    <th>Vai trò</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <% users.forEach(item => { %>
+
+                    <tr>
+
+                        <td>
+                            <%= item.user_id %>
+                        </td>
+
+                        <td>
+                            <%= item.full_name || "" %>
+                        </td>
+
+                        <td>
+                            <%= item.email || "" %>
+                        </td>
+
+                        <td>
+                            <%= item.role || "" %>
+                        </td>
+
+                    </tr>
+
+                <% }); %>
+
+            </tbody>
+
+        </table>
+
+    <% } %>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>NỘI THẤT HOME</title>
+
+    <link
+        rel="stylesheet"
+        href="/css/style.css"
+    >
+
+</head>
+
+<body>
+
+
+<!-- ================= HEADER ================= -->
+
+<header>
+
+    <div class="container navbar">
+
+        <a href="/" class="logo">
+            NỘI THẤT HOME
+        </a>
+
+        <nav>
+
+    <a href="/">
+        Trang chủ
+    </a>
+
+    <a href="/products">
+        Sản phẩm
+    </a>
+
+
+    <% if (user) { %>
+
+        <a href="/cart">
+            Giỏ hàng
+        </a>
+
+        <a href="/orders">
+            Đơn hàng
+        </a>
+
+        <span class="user-name">
+            Xin chào,
+            <strong>
+                <%= user.full_name %>
+            </strong>
+        </span>
+
+        <a href="/logout">
+            Đăng xuất
+        </a>
+
+
+    <% } else { %>
+
+        <a href="/login">
+            Đăng nhập
+        </a>
+        <a href="/my-orders">
+            Đơn hàng của tôi
+        </a>
+
+        <a href="/register">
+            Đăng ký
+        </a>
+
+    <% } %>
+
+</nav>
+    </div>
+
+</header>
+
+
+<!-- ================= BANNER ================= -->
+
+<section class="banner">
+
+    <div class="banner-content">
+
+        <p class="banner-small">
+            KHÔNG GIAN SỐNG HIỆN ĐẠI
+        </p>
+
+        <h1>
+            NỘI THẤT HOME
+        </h1>
+
+        <p>
+            Kiến tạo không gian sống
+            tiện nghi và tinh tế cho ngôi nhà của bạn.
+        </p>
+
+        <a href="#sanpham" class="btn">
+            Khám phá ngay
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- ================= DANH MỤC ================= -->
+
+<section
+    class="container category-section"
+    id="danhmuc"
+>
+
+    <h2>Danh mục nội thất</h2>
+
+    <div class="categories">
+
+        <div class="category-box">
+            <h3>Sofa</h3>
+            <p>Nội thất phòng khách</p>
+        </div>
+
+        <div class="category-box">
+            <h3>Bàn</h3>
+            <p>Bàn ăn và bàn trà</p>
+        </div>
+
+        <div class="category-box">
+            <h3>Ghế</h3>
+            <p>Ghế nội thất hiện đại</p>
+        </div>
+
+        <div class="category-box">
+            <h3>Giường</h3>
+            <p>Không gian phòng ngủ</p>
+        </div>
+
+        <div class="category-box">
+            <h3>Tủ</h3>
+            <p>Lưu trữ tiện nghi</p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= SẢN PHẨM ================= -->
+
+<section
+    class="container product-section"
+    id="sanpham"
+>
+
+    <div class="section-title">
+
+        <p>NỘI THẤT HOME</p>
+
+        <h2>Sản phẩm nổi bật</h2>
+
+    </div>
+
+
+    <div class="product-grid">
+
+        <% products.forEach(product => { %>
+
+            <div class="product-card">
+
+                <div class="product-image">
+
+                    <img
+                        src="<%= product.image_url %>"
+                        alt="<%= product.product_name %>"
+                        onerror="this.src='/images/ban-an.jpg'"
+                    >
+
+                </div>
+
+
+                <div class="product-info">
+
+                    <p class="product-category">
+
+                        <%= product.category_name %>
+
+                    </p>
+
+
+                    <h3>
+
+                        <%= product.product_name %>
+
+                    </h3>
+
+
+                    <p class="price">
+
+                        <%= Number(product.price)
+                            .toLocaleString("vi-VN") %> ₫
+
+                    </p>
+
+
+                    <a
+                        href="/products/<%= product.product_id %>"
+                        class="detail-btn"
+                    >
+                        Xem chi tiết
+                    </a>
+
+                </div>
+
+            </div>
+
+        <% }) %>
+
+    </div>
+
+</section>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <div class="container">
+
+        <h2>NỘI THẤT HOME</h2>
+
+        <p>
+            Nội thất cho không gian sống hiện đại.
+        </p>
+
+        <p>
+            Đồ án xây dựng website bán đồ nội thất
+        </p>
+
+    </div>
+
+</footer>
+
+
+</body>
+
+</html>

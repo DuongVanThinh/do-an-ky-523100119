@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Quản lý đơn hàng - NỘI THẤT HOME</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+    <div class="admin-container">
+
+        <h1>QUẢN LÝ ĐƠN HÀNG</h1>
+<div class="admin-order-tools">
+
+    
+    <form action="/admin/orders" method="GET">
+
+        <input
+            type="text"
+            name="keyword"
+            placeholder="Tìm tên, SĐT hoặc mã đơn..."
+            value="<%= typeof keyword !== 'undefined' ? keyword : '' %>"
+        >
+
+        <select name="status">
+
+    <option value="">
+        Tất cả trạng thái
+    </option>
+
+    <option
+        value="Chờ xác nhận"
+        <%= selectedStatus === "Chờ xác nhận"
+            ? "selected"
+            : "" %>
+    >
+        Chờ xác nhận
+    </option>
+
+    <option
+        value="Đã xác nhận"
+        <%= selectedStatus === "Đã xác nhận"
+            ? "selected"
+            : "" %>
+    >
+        Đã xác nhận
+    </option>
+
+    <option
+        value="Đang giao"
+        <%= selectedStatus === "Đang giao"
+            ? "selected"
+            : "" %>
+    >
+        Đang giao
+    </option>
+
+    <option
+        value="Hoàn thành"
+        <%= selectedStatus === "Hoàn thành"
+            ? "selected"
+            : "" %>
+    >
+        Hoàn thành
+    </option>
+
+    <option
+        value="Đã hủy"
+        <%= selectedStatus === "Đã hủy"
+            ? "selected"
+            : "" %>
+    >
+        Đã hủy
+    </option>
+
+</select>
+
+        <button type="submit">
+            Tìm kiếm
+        </button>
+
+        <a href="/admin/orders">
+            Làm mới
+        </a>
+
+    </form>
+
+</div>
+        <p>
+            <a href="/admin">
+                ← Quay lại trang quản trị
+            </a>
+        </p>
+            <a href="/admin/orders" class="admin-menu-item">
+                Quản lý đơn hàng
+            </a>
+        <% if (!orders || orders.length === 0) { %>
+
+            <p>Hiện chưa có đơn hàng nào.</p>
+
+        <% } else { %>
+
+            <table border="1"
+                   cellpadding="10"
+                   cellspacing="0"
+                   width="100%">
+
+                <thead>
+                    <tr>
+                        <th>Mã đơn</th>
+
+                        <th>Khách hàng</th>
+
+                        <th>Số điện thoại</th>
+
+                        <th>Địa chỉ</th>
+
+                        <th>Tổng tiền</th>
+
+                        <th>Trạng thái</th>
+
+                        <th>Ngày đặt</th>
+
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                <% orders.forEach(order => { %>
+
+                    <tr>
+
+                        <td>
+                            #<%= order.order_id %>
+                        </td>
+
+                        <td>
+                            <%= order.receiver_name || "" %>
+                        </td>
+
+                        <td>
+                            <%= order.phone || "" %>
+                        </td>
+
+                        <td>
+                            <%= order.shipping_address || "" %>
+                        </td>
+
+                        <td>
+                            <%= Number(order.total_amount || 0)
+                                .toLocaleString("vi-VN") %> đ
+                        </td>
+
+                        <td>
+                            <%= order.status || "Chờ xác nhận" %>
+                        </td>
+
+                        <td>
+                            <%= order.created_at
+                                ? new Date(order.created_at)
+                                    .toLocaleString("vi-VN")
+                                : "" %>
+                        </td>
+
+                        <td>
+                            <a href="/admin/orders/<%= order.order_id %>">
+                                Xem chi tiết
+                            </a>
+                        </td>
+
+                    </tr>
+
+                <% }); %>
+
+                </tbody>
+
+            </table>
+
+        <% } %>
+
+    </div>
+
+</body>
+</html>

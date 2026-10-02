@@ -1,0 +1,216 @@
+ <!DOCTYPE html>
+
+<html lang="vi">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        <%= product.product_name %>
+        - NỘI THẤT HOME
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="/css/style.css"
+    >
+
+</head>
+
+<body>
+
+
+<header>
+
+    <div class="container navbar">
+
+        <a href="/" class="logo">
+            NỘI THẤT HOME
+        </a>
+
+        <nav>
+
+            <a href="/">
+                Trang chủ
+            </a>
+
+            <a href="/products">
+                Sản phẩm
+            </a>
+
+            <a href="/login">
+                Đăng nhập
+            </a>
+
+            <a href="/register">
+                Đăng ký
+            </a>
+
+            <a href="/cart">
+                Giỏ hàng
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+<main class="container">
+
+    <div class="product-detail">
+
+        <!-- ẢNH -->
+
+        <div class="detail-image">
+
+            <img
+                src="<%= product.image_url %>"
+                alt="<%= product.product_name %>"
+                onerror="this.src='/images/ban-an.jpg'"
+            >
+
+        </div>
+
+
+        <!-- THÔNG TIN -->
+
+        <div class="detail-content">
+
+            <p class="product-category">
+
+                <%= product.category_name %>
+
+            </p>
+
+
+            <h1>
+
+                <%= product.product_name %>
+
+            </h1>
+
+
+            <p class="detail-price">
+
+                <%= Number(product.price)
+                    .toLocaleString("vi-VN") %> ₫
+
+            </p>
+
+
+            <p class="stock">
+
+                Tình trạng:
+
+                <% if (product.stock_quantity > 0) { %>
+
+                    <strong>
+                        Còn hàng
+                        (<%= product.stock_quantity %>)
+                    </strong>
+
+                <% } else { %>
+
+                    <strong>
+                        Hết hàng
+                    </strong>
+
+                <% } %>
+
+            </p>
+
+
+            <div class="description">
+
+                <h3>Mô tả sản phẩm</h3>
+
+                <p>
+
+                    <%= product.description %>
+
+                </p>
+
+            </div>
+
+
+            <% if (product.stock_quantity > 0) { %>
+
+                <form
+                    action="/cart/add"
+                    method="POST"
+                >
+
+                    <input
+                        type="hidden"
+                        name="product_id"
+                        value="<%= product.product_id %>"
+                    >
+
+                    <div class="quantity-box">
+
+                        <label>
+                            Số lượng:
+                        </label>
+
+                        <input
+                            type="number"
+                            name="quantity"
+                            value="1"
+                            min="1"
+                            max="<%= product.stock_quantity %>"
+                        >
+
+                    </div>
+
+                    <button
+                        type="submit"
+                        class="add-cart-btn"
+                    >
+                        Thêm vào giỏ hàng
+                    </button>
+
+                </form>
+
+            <% } %>
+
+
+            <a
+                href="/products"
+                class="back-link"
+            >
+                ← Quay lại danh sách sản phẩm
+            </a>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<footer>
+
+    <div class="container">
+
+        <h2>NỘI THẤT HOME</h2>
+
+        <p>
+            Nội thất cho không gian sống hiện đại.
+        </p>
+
+    </div>
+
+</footer>
+
+
+</body>
+
+</html>

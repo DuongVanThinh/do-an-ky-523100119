@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Quản trị - NỘI THẤT HOME</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+<div class="admin-container">
+
+    <h1>QUẢN TRỊ NỘI THẤT HOME</h1>
+
+    <p>
+        Xin chào,
+        <strong>
+            <%= user ? user.full_name : "Admin" %>
+        </strong>
+    </p>
+
+    <hr>
+
+
+    <!-- ========================================= -->
+    <!-- THỐNG KÊ -->
+    <!-- ========================================= -->
+
+    <section class="dashboard-section">
+
+        <h2>Tổng quan cửa hàng</h2>
+
+        <div class="dashboard-cards">
+
+            <div class="dashboard-card">
+
+                <h3>Tổng đơn hàng</h3>
+
+                <p>
+                    <%= stats ? stats.total_orders || 0 : 0 %>
+                </p>
+
+            </div>
+
+
+            <div class="dashboard-card">
+
+                <h3>Chờ xác nhận</h3>
+
+                <p>
+                    <%= stats ? stats.pending_orders || 0 : 0 %>
+                </p>
+
+            </div>
+
+
+            <div class="dashboard-card">
+
+                <h3>Đã xác nhận</h3>
+
+                <p>
+                    <%= stats ? stats.confirmed_orders || 0 : 0 %>
+                </p>
+
+            </div>
+
+
+            <div class="dashboard-card">
+
+                <h3>Đang giao</h3>
+
+                <p>
+                    <%= stats ? stats.shipping_orders || 0 : 0 %>
+                </p>
+
+            </div>
+
+
+            <div class="dashboard-card">
+
+                <h3>Hoàn thành</h3>
+
+                <p>
+                    <%= stats ? stats.completed_orders || 0 : 0 %>
+                </p>
+
+            </div>
+
+
+            <div class="dashboard-card">
+
+                <h3>Đã hủy</h3>
+
+                <p>
+                    <%= stats ? stats.cancelled_orders || 0 : 0 %>
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- DOANH THU -->
+
+        <div class="revenue-card">
+
+            <h3>TỔNG DOANH THU</h3>
+
+            <p>
+
+                <%= Number(
+                    stats ? stats.revenue || 0 : 0
+                ).toLocaleString("vi-VN") %> đ
+
+            </p>
+
+            <small>
+                Chỉ tính các đơn hàng đã hoàn thành
+            </small>
+
+        </div>
+
+    </section>
+
+
+    <!-- ========================================= -->
+    <!-- CHỨC NĂNG ADMIN -->
+    <!-- ========================================= -->
+
+    <section class="admin-functions">
+
+        <h2>Chức năng quản trị</h2>
+
+        <div class="admin-function-list">
+
+            <a href="/admin/products">
+                Quản lý sản phẩm
+            </a>
+
+            <a href="/admin/orders">
+                Quản lý đơn hàng
+            </a>
+
+            <a href="/admin/users">
+                Quản lý khách hàng
+            </a>
+
+            <a href="/">
+                Xem website
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <br>
+
+    <a href="/logout">
+        Đăng xuất
+    </a>
+
+</div>
+
+</body>
+
+</html>

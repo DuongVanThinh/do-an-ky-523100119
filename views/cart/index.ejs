@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Giỏ hàng - NỘI THẤT HOME
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="/css/style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- ==========================
+     HEADER
+=========================== -->
+
+<header>
+
+    <div class="container navbar">
+
+        <a href="/" class="logo">
+            NỘI THẤT HOME
+        </a>
+
+
+        <nav>
+
+            <a href="/">
+                Trang chủ
+            </a>
+
+            <a href="/products">
+                Sản phẩm
+            </a>
+
+            <a href="/cart">
+                Giỏ hàng
+            </a>
+
+            <span class="user-name">
+
+                Xin chào,
+
+                <strong>
+                    <%= user.full_name %>
+                </strong>
+
+            </span>
+
+            <a href="/logout">
+                Đăng xuất
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+<!-- ==========================
+     TIÊU ĐỀ
+=========================== -->
+
+<section class="page-title">
+
+    <h1>GIỎ HÀNG</h1>
+
+    <p>
+        Kiểm tra các sản phẩm bạn đã chọn
+    </p>
+
+</section>
+
+
+<main class="container cart-page">
+
+
+    <% if (items.length === 0) { %>
+
+
+        <!-- GIỎ HÀNG TRỐNG -->
+
+        <div class="empty-cart">
+
+            <h2>
+                Giỏ hàng của bạn đang trống
+            </h2>
+
+            <p>
+                Hãy lựa chọn những sản phẩm
+                phù hợp cho không gian sống
+                của bạn.
+            </p>
+
+            <a
+                href="/products"
+                class="continue-shopping"
+            >
+                TIẾP TỤC MUA SẮM
+            </a>
+
+        </div>
+
+
+    <% } else { %>
+
+
+        <div class="cart-layout">
+
+
+            <!-- ========================
+                 DANH SÁCH
+            ========================= -->
+
+            <div class="cart-items">
+
+
+                <% items.forEach(item => { %>
+
+
+                    <div class="cart-item">
+
+
+                        <div class="cart-item-image">
+
+                            <img
+                                src="<%= item.image_url %>"
+                                alt="<%= item.product_name %>"
+                                onerror="this.src='/images/ban-an.jpg'"
+                            >
+
+                        </div>
+
+
+                        <div class="cart-item-info">
+
+                            <h3>
+
+                                <a
+                                    href="/products/<%= item.product_id %>"
+                                >
+                                    <%= item.product_name %>
+                                </a>
+
+                            </h3>
+
+
+                            <p class="cart-price">
+
+                                <%= Number(item.price)
+                                    .toLocaleString("vi-VN") %> ₫
+
+                            </p>
+
+
+                            <!-- CẬP NHẬT SỐ LƯỢNG -->
+
+                            <form
+                                action="/cart/update"
+                                method="POST"
+                                class="cart-update-form"
+                            >
+
+                                <input
+                                    type="hidden"
+                                    name="cart_item_id"
+                                    value="<%= item.cart_item_id %>"
+                                >
+
+
+                                <label>
+                                    Số lượng:
+                                </label>
+
+
+                                <input
+                                    type="number"
+                                    name="quantity"
+                                    value="<%= item.quantity %>"
+                                    min="1"
+                                    max="<%= item.stock_quantity %>"
+                                >
+
+
+                                <button type="submit">
+                                    Cập nhật
+                                </button>
+
+                            </form>
+
+
+                            <!-- XÓA -->
+
+                            <form
+                                action="/cart/remove"
+                                method="POST"
+                            >
+
+                                <input
+                                    type="hidden"
+                                    name="cart_item_id"
+                                    value="<%= item.cart_item_id %>"
+                                >
+
+                                <button
+                                    type="submit"
+                                    class="remove-cart-btn"
+                                >
+                                    Xóa sản phẩm
+                                </button>
+
+                            </form>
+
+                        </div>
+
+
+                        <div class="cart-subtotal">
+
+                            <p>
+                                Thành tiền
+                            </p>
+
+                            <strong>
+
+                                <%= Number(item.subtotal)
+                                    .toLocaleString("vi-VN") %> ₫
+
+                            </strong>
+
+                        </div>
+
+
+                    </div>
+
+
+                <% }) %>
+
+
+            </div>
+
+
+            <!-- ========================
+                 TỔNG ĐƠN
+            ========================= -->
+
+            <div class="cart-summary">
+
+                <h2>
+                    TÓM TẮT GIỎ HÀNG
+                </h2>
+
+
+                <div class="summary-row">
+
+                    <span>
+                        Số loại sản phẩm:
+                    </span>
+
+                    <strong>
+                        <%= items.length %>
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-row total-row">
+
+                    <span>
+                        Tổng tiền:
+                    </span>
+
+                    <strong>
+
+                        <%= Number(total)
+                            .toLocaleString("vi-VN") %> ₫
+
+                    </strong>
+
+                </div>
+
+
+                <a
+                    href="/checkout"
+                    class="checkout-btn"
+                >
+                    TIẾN HÀNH ĐẶT HÀNG
+                </a>
+
+
+                <a
+                    href="/products"
+                    class="continue-link"
+                >
+                    ← Tiếp tục mua sắm
+                </a>
+
+            </div>
+
+
+        </div>
+
+
+    <% } %>
+
+
+</main>
+
+
+</body>
+
+</html>
