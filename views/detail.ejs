@@ -1,0 +1,193 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= product.product_name %> - NỘI THẤT HOME</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<header>
+  <div class="topbar container">
+    <a href="/" class="logo">
+      NỘI THẤT <span>HOME.</span>
+    </a>
+    <div class="account">
+      <a href="/products">Sản phẩm</a>
+      <a href="/cart">🛒 Giỏ hàng</a>
+    </div>
+  </div>
+
+  <nav>
+    <a href="/">Trang chủ</a>
+    <a href="/products">Tất cả sản phẩm</a>
+    <a href="/products?category=Sofa">Sofa</a>
+    <a href="/products?category=Giường ngủ">Giường ngủ</a>
+    <a href="/products?category=Bàn ăn">Bàn ăn</a>
+  </nav>
+</header>
+
+<main class="container">
+
+  <p class="breadcrumb">
+    <a href="/">Trang chủ</a> /
+    <a href="/products">Sản phẩm</a> /
+    <%= product.product_name %>
+  </p>
+
+  <div class="product-detail">
+
+    <div class="detail-image">
+      <img src="<%= product.image_url %>"
+           alt="<%= product.product_name %>">
+    </div>
+
+    <div class="detail-info">
+      <p class="eyebrow">NỘI THẤT HOME</p>
+
+      <h1><%= product.product_name %></h1>
+
+      <p class="detail-price">
+        <%= Number(product.price).toLocaleString('vi-VN') %>đ
+      </p>
+
+      <p>
+        Danh mục:
+        <strong><%= product.category_name || 'Nội thất' %></strong>
+      </p>
+
+      <p>
+        Tình trạng:
+        <strong>
+          <%= product.stock > 0
+              ? 'Còn ' + product.stock + ' sản phẩm'
+              : 'Hết hàng' %>
+        </strong>
+      </p>
+
+      <p class="description">
+        <%= product.description || 'Sản phẩm nội thất chất lượng cao.' %>
+      </p>
+
+      <form action="/cart/add" method="POST">
+        <input type="hidden" name="product_id"
+               value="<%= product.product_id %>">
+
+        <label>Số lượng:</label>
+        <input type="number" name="quantity"
+               value="1" min="1"
+               max="<%= product.stock %>"
+               class="quantity-input"
+               required>
+
+        <button class="add-btn" <%= product.stock <= 0 ? 'disabled' : '' %>>
+          🛒 Thêm vào giỏ hàng
+        </button>
+      </form>
+
+      <div class="detail-benefits">
+        <p>✓ Nội thất chất lượng cao</p>
+        <p>✓ Hỗ trợ tư vấn sản phẩm</p>
+        <p>✓ Giao hàng toàn quốc</p>
+      </div>
+    </div>
+
+  </div>
+  
+<!-- BƯỚC 19: ĐÁNH GIÁ SẢN PHẨM -->
+
+<section class="review-section">
+
+    <h2>Đánh Giá Sản Phẩm</h2>
+
+    <p>
+        Chia sẻ trải nghiệm của bạn về sản phẩm
+        tại NỘI THẤT HOME.
+    </p>
+
+    <!-- Form đánh giá -->
+    <form
+        action="/products/<%= product.product_id %>/review"
+        method="POST"
+        class="review-form">
+
+        <label>Chọn số sao</label>
+
+        <select name="rating" required>
+            <option value="5">★★★★★ - Rất tốt</option>
+            <option value="4">★★★★☆ - Tốt</option>
+            <option value="3">★★★☆☆ - Bình thường</option>
+            <option value="2">★★☆☆☆ - Chưa tốt</option>
+            <option value="1">★☆☆☆☆ - Kém</option>
+        </select>
+
+        <label>Nhận xét của bạn</label>
+
+        <textarea
+            name="comment"
+            rows="5"
+            minlength="5"
+            maxlength="1000"
+            placeholder="Nhập nhận xét về sản phẩm..."
+            required></textarea>
+
+        <button type="submit">
+            Gửi đánh giá
+        </button>
+
+    </form>
+
+    <!-- Danh sách đánh giá -->
+    <div class="review-list">
+
+        <h3>Nhận Xét Của Khách Hàng</h3>
+
+        <% if (reviews.length === 0) { %>
+
+            <p>
+                Chưa có đánh giá nào cho sản phẩm này.
+            </p>
+
+        <% } else { %>
+
+            <% reviews.forEach(r => { %>
+
+                <div class="review-item">
+
+                    <strong>
+                        <%= r.full_name %>
+                    </strong>
+
+                    <div class="review-stars">
+                        <%= "★".repeat(r.rating) %><%= "☆".repeat(5 - r.rating) %>
+                    </div>
+
+                    <p><%= r.comment %></p>
+
+                    <small>
+                        <%= new Date(r.created_at)
+                            .toLocaleDateString("vi-VN") %>
+                    </small>
+
+                </div>
+
+            <% }) %>
+
+        <% } %>
+
+    </div>
+
+</section>
+
+</main>
+
+<footer>
+  <p class="copyright">
+    © 2026 NỘI THẤT HOME
+  </p>
+</footer>
+
+</body>
+</html>

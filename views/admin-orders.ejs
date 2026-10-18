@@ -1,0 +1,147 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <title>Quản lý đơn hàng - NỘI THẤT HOME</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<main class="container admin-list-page">
+
+    <a href="/admin">← Quay lại Admin</a>
+
+    <h1>Quản Lý Đơn Hàng</h1>
+
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>Mã đơn</th>
+                <th>Người nhận</th>
+                <th>Ngày đặt</th>
+                <th>Tổng tiền</th>
+                <th>Trạng thái</th>
+                <th>Thanh toán</th>
+                <th>Thao tác</th>
+                <th>Xử lý đơn</th>
+                <th>Thanh toán</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <% orders.forEach(o => { %>
+                <tr>
+                    <td>#<%= o.order_id %></td>
+                    <td><%= o.receiver_name %></td>
+
+                    <td>
+                        <%= new Date(o.created_at)
+                            .toLocaleDateString("vi-VN") %>
+                    </td>
+
+                    <td>
+                        <%= Number(o.total_amount)
+                            .toLocaleString("vi-VN") %>đ
+                    </td>
+
+                    <td><%= o.status %></td>
+                    <td><%= o.payment_status %></td>
+                    
+<td>
+    
+<% if (o.status === "cancel_requested" || o.status === "Yêu cầu hủy") { %>
+
+    <div class="admin-cancel-actions">
+
+        <form
+            action="/admin/orders/<%= o.order_id %>/approve-cancel"
+            method="POST"
+            onsubmit="return confirm('Đồng ý hủy đơn và hoàn lại số lượng sản phẩm?')"
+        >
+            <button type="submit" class="approve-cancel-btn">
+                ✓ Đồng ý hủy
+            </button>
+        </form>
+
+        <form
+            action="/admin/orders/<%= o.order_id %>/reject-cancel"
+            method="POST"
+            onsubmit="return confirm('Từ chối yêu cầu hủy đơn hàng?')"
+        >
+            <button type="submit" class="reject-cancel-btn">
+                ✕ Từ chối hủy
+            </button>
+        </form>
+
+    </div>
+
+<% } %>
+
+    <% const nextStatuses = {
+        "Chờ xác nhận": ["Đã xác nhận"],
+        "Đã xác nhận": ["Đang giao hàng"],
+        "Đang giao hàng": ["Đã giao hàng"],
+        "Đã giao hàng": [],
+        "Đã hủy": []
+    }; %>
+
+    <% const choices = nextStatuses[o.status] || []; %>
+
+    <% if (choices.length > 0) { %>
+        <form method="POST"
+              action="/admin/orders/<%= o.order_id %>/status">
+
+            <select name="status" required>
+                <% choices.forEach(s => { %>
+                    <option value="<%= s %>"><%= s %></option>
+                <% }) %>
+            </select>
+
+            <button type="submit" class="admin-btn">
+                Cập nhật
+            </button>
+        </form>
+    <% } else { %>
+        <span>Không có thao tác</span>
+    <% } %>
+</td>
+<td>
+    <p><%= o.payment_status %></p>
+
+    <% const canPay =
+        o.payment_status === "Chưa thanh toán" &&
+        o.status !== "Đã hủy"; %>
+
+    <% const canRefund =
+        o.payment_status === "Đã thanh toán" &&
+        o.status === "Đã hủy"; %>
+
+    <% if (canPay || canRefund) { %>
+        <form method="POST"
+              action="/admin/orders/<%= o.order_id %>/payment">
+
+            <input type="hidden"
+                   name="payment_status"
+                   value="<%= canPay ? 'Đã thanh toán' : 'Đã hoàn tiền' %>">
+
+            <button type="submit" class="admin-btn"
+                    onclick="return confirm('Bạn đã xác minh giao dịch thực tế chưa?')">
+                <%= canPay ? "Xác nhận đã thanh toán" : "Xác nhận đã hoàn tiền" %>
+            </button>
+        </form>
+    <% } %>
+</td>
+
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+
+</main>
+
+</body>
+</html>

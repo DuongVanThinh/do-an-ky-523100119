@@ -1,0 +1,276 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sản phẩm - NỘI THẤT HOME</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<header>
+  <div class="topbar container">
+    <a href="/" class="logo">
+      NỘI THẤT <span>HOME.</span>
+    </a>
+
+    <form action="/products" class="search">
+      <input name="q" value="<%= q %>"
+             placeholder="Tìm kiếm nội thất...">
+      <button>Tìm kiếm</button>
+    </form>
+
+    <div class="account">
+      <a href="/login">Tài khoản</a>
+      <a href="/cart">🛒 Giỏ hàng</a>
+    </div>
+  </div>
+
+  <nav>
+    <a href="/">Trang chủ</a>
+    <a href="/products">Tất cả sản phẩm</a>
+    <a href="/products?category=Sofa">Sofa</a>
+    <a href="/products?category=Giường ngủ">Giường ngủ</a>
+    <a href="/products?category=Bàn ăn">Bàn ăn</a>
+    <a href="/products?category=Tủ quần áo">Tủ quần áo</a>
+  </nav>
+</header>
+
+<div class="page-banner">
+  <h1>Bộ Sưu Tập Nội Thất</h1>
+  <p>Trang chủ / Sản phẩm</p>
+</div>
+
+<main class="container shop-layout">
+
+  <aside class="filter">
+    <h3>BỘ LỌC SẢN PHẨM</h3>
+
+    <form action="/products" method="GET">
+      <label>Tên sản phẩm</label>
+      <input name="q" value="<%= q %>"
+             placeholder="Nhập tên sản phẩm">
+
+      <label>Danh mục</label>
+      <select name="category">
+        <% ['','Sofa','Giường ngủ','Bàn ăn','Tủ quần áo']
+           .forEach(c => { %>
+          <option value="<%= c %>"
+            <%= category === c ? 'selected' : '' %>>
+            <%= c || 'Tất cả danh mục' %>
+          </option>
+        <% }) %>
+      </select>
+
+      <label>Giá từ (VNĐ)</label>
+      <input type="number" name="min"
+             min="0" value="<%= min %>">
+
+      <label>Đến (VNĐ)</label>
+      <input type="number" name="max"
+             min="0" value="<%= max %>">
+
+      <button class="add-btn">Áp dụng bộ lọc</button>
+      <a href="/products" class="reset-filter">Xóa bộ lọc</a>
+    </form>
+  </aside>
+
+  <section class="shop-content">
+    
+<!-- BƯỚC 17: BỘ LỌC SẢN PHẨM -->
+
+<section class="product-filter-section">
+
+    <div class="filter-heading">
+        <div>
+            <span class="filter-label">
+                KHÁM PHÁ NỘI THẤT
+            </span>
+
+            <h2>Tìm Kiếm Sản Phẩm</h2>
+        </div>
+
+        <p>
+            Tìm thấy
+            <strong><%= products.length %></strong>
+            sản phẩm
+        </p>
+    </div>
+
+    <form
+        action="/products"
+        method="GET"
+        class="product-filter-form"
+    >
+
+        <!-- TÌM KIẾM TÊN -->
+        <div class="filter-group">
+            <label for="filter-q">
+                Tên sản phẩm
+            </label>
+
+            <input
+                id="filter-q"
+                type="text"
+                name="q"
+                value="<%= q %>"
+                placeholder="Tìm sofa, bàn ăn, giường..."
+            >
+        </div>
+
+        <!-- DANH MỤC -->
+        <div class="filter-group">
+            <label for="filter-category">
+                Danh mục
+            </label>
+
+            <select id="filter-category" name="category">
+
+                <option value="">
+                    Tất cả danh mục
+                </option>
+
+                <% categories.forEach(c => { %>
+
+                    <option
+                        value="<%= c.category_name %>"
+                        <%= category === c.category_name
+                            ? "selected" : "" %>
+                    >
+                        <%= c.category_name %>
+                    </option>
+
+                <% }) %>
+
+            </select>
+        </div>
+
+        <!-- GIÁ TỪ -->
+        <div class="filter-group">
+            <label for="filter-min">
+                Giá từ (VNĐ)
+            </label>
+
+            <input
+                id="filter-min"
+                type="number"
+                name="min"
+                min="0"
+                value="<%= min %>"
+                placeholder="Ví dụ: 1000000"
+            >
+        </div>
+
+        <!-- GIÁ ĐẾN -->
+        <div class="filter-group">
+            <label for="filter-max">
+                Giá đến (VNĐ)
+            </label>
+
+            <input
+                id="filter-max"
+                type="number"
+                name="max"
+                min="0"
+                value="<%= max %>"
+                placeholder="Ví dụ: 10000000"
+            >
+        </div>
+
+        <!-- SẮP XẾP -->
+        <div class="filter-group">
+            <label for="filter-sort">
+                Sắp xếp theo
+            </label>
+
+            <select id="filter-sort" name="sort">
+
+                <option value="newest"
+                    <%= sort === "newest" ? "selected" : "" %>>
+                    Sản phẩm mới nhất
+                </option>
+
+                <option value="price_asc"
+                    <%= sort === "price_asc" ? "selected" : "" %>>
+                    Giá thấp đến cao
+                </option>
+
+                <option value="price_desc"
+                    <%= sort === "price_desc" ? "selected" : "" %>>
+                    Giá cao đến thấp
+                </option>
+
+                <option value="name_asc"
+                    <%= sort === "name_asc" ? "selected" : "" %>>
+                    Tên A đến Z
+                </option>
+
+            </select>
+        </div>
+
+        <!-- NÚT THAO TÁC -->
+        <div class="filter-actions">
+
+            <button type="submit" class="filter-submit">
+                🔍 Tìm kiếm
+            </button>
+
+            <a href="/products" class="filter-reset">
+                Xóa bộ lọc
+            </a>
+
+        </div>
+
+    </form>
+
+</section>
+
+    <div class="shop-heading">
+      <h2>Tất Cả Sản Phẩm</h2>
+      <span><%= products.length %> sản phẩm</span>
+    </div>
+
+    <div class="products shop-products">
+      <% products.forEach(p => { %>
+        <article class="product">
+          <a href="/products/<%= p.product_id %>">
+            <img src="<%= p.image_url %>"
+                 alt="<%= p.product_name %>">
+          </a>
+
+          <div class="product-info">
+            <p class="category">
+              <%= p.category_name || 'Nội thất' %>
+            </p>
+
+            <h3><%= p.product_name %></h3>
+
+            <p class="price">
+              <%= Number(p.price).toLocaleString('vi-VN') %>đ
+            </p>
+
+            <a class="add-btn detail-link"
+               href="/products/<%= p.product_id %>">
+              Xem chi tiết
+            </a>
+          </div>
+        </article>
+      <% }) %>
+    </div>
+
+    <% if (products.length === 0) { %>
+      <p>Không tìm thấy sản phẩm phù hợp.</p>
+    <% } %>
+  </section>
+
+</main>
+
+<footer>
+  <p class="copyright">
+    © 2026 NỘI THẤT HOME - Nội thất hiện đại
+  </p>
+</footer>
+
+</body>
+</html>

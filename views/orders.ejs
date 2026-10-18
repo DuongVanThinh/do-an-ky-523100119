@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lịch sử đơn hàng - NỘI THẤT HOME</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<main class="container" style="padding:40px 20px;">
+
+    <a href="/">← Quay lại trang chủ</a>
+
+    <h1>Đơn hàng của tôi</h1>
+
+    <% if (!orders || orders.length === 0) { %>
+
+        <p>Bạn chưa có đơn hàng nào.</p>
+        <a href="/products">Tiếp tục mua sắm</a>
+
+    <% } else { %>
+
+        <div style="overflow-x:auto;">
+            <table class="admin-table" style="width:100%;">
+                <thead>
+                    <tr>
+                        <th>Mã đơn</th>
+                        <th>Ngày đặt</th>
+                        <th>Tổng tiền</th>
+                        <th>Trạng thái</th>
+                        <th>Thanh toán</th>
+                        <th>Chi tiết</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <% orders.forEach(o => { %>
+                        <tr>
+                            <td>#<%= o.order_id %></td>
+
+                            <td>
+                                <%= o.created_at
+                                    ? new Date(o.created_at).toLocaleDateString("vi-VN")
+                                    : "Chưa có" %>
+                            </td>
+
+                            <td>
+                                <%= Number(o.total_amount || 0).toLocaleString("vi-VN") %>đ
+                            </td>
+
+                            <td><%= o.status %></td>
+
+                            <td>
+                                <%= o.payment_status || "Chưa thanh toán" %>
+                            </td>
+
+                            <td>
+                                <a href="/orders/<%= o.order_id %>">
+                                    Xem chi tiết
+                                </a>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+
+    <% } %>
+
+</main>
+
+</body>
+</html>

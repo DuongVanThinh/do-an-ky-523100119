@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <title>Tài khoản - NỘI THẤT HOME</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<header>
+    <div class="topbar container">
+        <a href="/" class="logo">
+            NỘI THẤT <span>HOME.</span>
+        </a>
+
+        <a href="/">Trang chủ</a>
+    </div>
+</header>
+
+<main class="auth-page">
+    <div class="auth-box account-box">
+
+        <h1>Tài Khoản Của Tôi</h1>
+
+        <div class="account-detail">
+            <p>
+                <strong>Họ tên:</strong>
+                <%= user.name %>
+            </p>
+
+            <p>
+                <strong>Email:</strong>
+                <%= user.email %>
+            </p>
+        </div>
+
+        <a href="/cart" class="auth-btn account-link">
+            Xem giỏ hàng
+        </a>
+
+        <a href="/orders" class="account-secondary">
+            Lịch sử đơn hàng
+        </a>
+
+        <form action="/logout" method="POST">
+            <button type="submit"
+                    class="logout-btn">
+                Đăng xuất
+            </button>
+        </form>
+
+    </div>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,256 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin - NỘI THẤT HOME</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<main class="dashboard-container">
+
+    <a href="/admin" class="dashboard-back">
+        ← Quay lại trang quản trị
+    </a>
+
+    <h1>Tổng Quan Quản Trị</h1>
+    <p class="dashboard-subtitle">
+        Thống kê hoạt động kinh doanh NỘI THẤT HOME
+    </p>
+
+    <section class="dashboard-grid">
+
+        <div class="dashboard-card">
+            <span>📦 Tổng sản phẩm</span>
+            <h2><%= stats.totalProducts %></h2>
+        </div>
+
+        <div class="dashboard-card">
+            <span>👥 Tổng khách hàng</span>
+            <h2><%= stats.totalCustomers %></h2>
+        </div>
+
+        <div class="dashboard-card">
+            <span>🛒 Tổng đơn hàng</span>
+            <h2><%= stats.totalOrders %></h2>
+        </div>
+
+        <div class="dashboard-card revenue-card">
+            <span>💰 Tổng doanh thu</span>
+            <h2>
+                <%= Number(stats.totalRevenue).toLocaleString("vi-VN") %>đ
+            </h2>
+        </div>
+
+        <div class="dashboard-card">
+            <span>⏳ Chờ xác nhận</span>
+            <h2><%= stats.pendingOrders %></h2>
+        </div>
+
+        <div class="dashboard-card">
+            <span>🚚 Đang giao hàng</span>
+            <h2><%= stats.shippingOrders %></h2>
+        </div>
+
+        <div class="dashboard-card">
+            <span>❌ Đơn đã hủy</span>
+            <h2><%= stats.cancelledOrders %></h2>
+        </div>
+
+    </section>
+
+<section class="dashboard-chart-section">
+
+    <h2>Biểu Đồ Doanh Thu Theo Tháng</h2>
+
+    <p>
+        Thống kê doanh thu trong năm hiện tại
+    </p>
+
+    <div class="dashboard-chart-box">
+        <canvas id="revenueChart"></canvas>
+    </div>
+
+</section>
+
+    <section class="dashboard-orders">
+
+        <h2>Đơn Hàng Mới Nhất</h2>
+
+        <div class="dashboard-table-wrap">
+            <table class="dashboard-table">
+                <thead>
+                    <tr>
+                        <th>Mã đơn</th>
+                        <th>Khách hàng</th>
+                        <th>Ngày đặt</th>
+                        <th>Tổng tiền</th>
+                        <th>Trạng thái</th>
+                        <th>Thanh toán</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <% recentOrders.forEach(o => { %>
+                        <tr>
+                            <td>#<%= o.order_id %></td>
+
+                            <td><%= o.receiver_name %></td>
+
+                            <td>
+                                <%= new Date(o.created_at)
+                                    .toLocaleDateString("vi-VN") %>
+                            </td>
+
+                            <td>
+                                <%= Number(o.total_amount)
+                                    .toLocaleString("vi-VN") %>đ
+                            </td>
+
+                            <td><%= o.status %></td>
+
+                            <td><%= o.payment_status %></td>
+                        </tr>
+                    <% }) %>
+
+                    <% if (recentOrders.length === 0) { %>
+                        <tr>
+                            <td colspan="6">
+                                Chưa có đơn hàng nào.
+                            </td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+
+    </section>
+
+<section class="dashboard-best-selling">
+
+    <h2>Top 5 Sản Phẩm Bán Chạy</h2>
+
+    <div class="dashboard-table-wrap">
+        <table class="dashboard-table">
+
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Hình ảnh</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Đã bán</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <% bestSellingProducts.forEach((p, index) => { %>
+
+                    <tr>
+                        <td><%= index + 1 %></td>
+
+                        <td>
+                            <img
+                                src="<%= p.image_url %>"
+                                alt="<%= p.product_name %>"
+                                class="dashboard-product-image"
+                            >
+                        </td>
+
+                        <td>
+                            <%= p.product_name %>
+                        </td>
+
+                        <td>
+                            <strong>
+                                <%= p.total_sold %>
+                            </strong>
+                        </td>
+                    </tr>
+
+                <% }) %>
+
+                <% if (bestSellingProducts.length === 0) { %>
+                    <tr>
+                        <td colspan="4">
+                            Chưa có dữ liệu sản phẩm đã giao.
+                        </td>
+                    </tr>
+                <% } %>
+
+            </tbody>
+
+        </table>
+    </div>
+
+</section>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    </script>
+
+<script id="revenue-data" type="application/json"><%- JSON.stringify(monthlyRevenue || []).replace(/</g, '\\u003c') %></script>
+
+<script>
+const monthlyRevenue = JSON.parse(
+    document.getElementById("revenue-data").textContent
+);
+
+    const chartElement = document.getElementById("revenueChart");
+
+    if (chartElement && typeof Chart !== "undefined") {
+        new Chart(chartElement, {
+            type: "bar",
+
+            data: {
+                labels: monthlyRevenue.map(
+                    item => "Tháng " + item.month
+                ),
+
+                datasets: [{
+                    label: "Doanh thu (VNĐ)",
+
+                    data: monthlyRevenue.map(
+                        item => item.revenue
+                    ),
+
+                    backgroundColor: "#8b5e3c",
+
+                    borderRadius: 6
+                }]
+            },
+
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+
+                plugins: {
+                    legend: {
+                        display: true
+                    }
+                },
+
+                scales: {
+                    y: {
+                        beginAtZero: true,
+
+                        ticks: {
+                            callback: function(value) {
+                                return Number(value)
+                                    .toLocaleString("vi-VN") + "đ";
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+</script>
+
+</body>
+</html>

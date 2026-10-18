@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết đơn hàng - NỘI THẤT HOME</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<main class="order-detail-container">
+
+    <a href="/orders" class="order-back">
+        ← Quay lại đơn hàng của tôi
+    </a>
+
+    <h1>Chi Tiết Đơn Hàng #<%= order.order_id %></h1>
+
+    <div class="order-info-card">
+        <h2>Thông tin đơn hàng</h2>
+
+        <p>
+            <strong>Mã đơn hàng:</strong>
+            #<%= order.order_id %>
+        </p>
+
+        <p>
+            <strong>Trạng thái:</strong>
+            <span class="order-status">
+                <%= order.status %>
+            </span>
+        </p>
+
+        <p>
+            <strong>Thanh toán:</strong>
+            <%= order.payment_status || "Chưa thanh toán" %>
+        </p>
+
+        <% if (order.receiver_name) { %>
+            <p>
+                <strong>Người nhận:</strong>
+                <%= order.receiver_name %>
+            </p>
+        <% } %>
+
+        <% if (order.phone) { %>
+            <p>
+                <strong>Số điện thoại:</strong>
+                <%= order.phone %>
+            </p>
+        <% } %>
+
+        <% if (order.address) { %>
+            <p>
+                <strong>Địa chỉ:</strong>
+                <%= order.address %>
+            </p>
+        <% } %>
+    </div>
+
+    <h2>Sản phẩm đã đặt</h2>
+
+    <div class="order-table-wrap">
+        <table class="order-detail-table">
+            <thead>
+                <tr>
+                    <th>Hình ảnh</th>
+                    <th>Sản phẩm</th>
+                    <th>Đơn giá</th>
+                    <th>Số lượng</th>
+                    <th>Thành tiền</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <% items.forEach(item => { %>
+                    <tr>
+                        <td>
+                            <img
+                                src="<%= item.image_url || '/images/banner.jpg' %>"
+                                alt="<%= item.product_name %>"
+                                class="order-product-img"
+                            >
+                        </td>
+
+                        <td><%= item.product_name %></td>
+
+                        <td>
+                            <%= Number(item.unit_price).toLocaleString("vi-VN") %>đ
+                        </td>
+
+                        <td><%= item.quantity %></td>
+
+                        <td>
+                            <%= (
+                                Number(item.unit_price) *
+                                Number(item.quantity)
+                            ).toLocaleString("vi-VN") %>đ
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="order-total">
+        Tổng thanh toán:
+        <strong>
+            <%= Number(order.total_amount).toLocaleString("vi-VN") %>đ
+        </strong>
+    </div>
+
+    
+<!-- CHỨC NĂNG YÊU CẦU HỦY ĐƠN HÀNG -->
+
+<div class="customer-cancel-section">
+
+    <h3>Quản lý đơn hàng</h3>
+
+    
+<%
+    const status = String(order.status || "").trim().toLowerCase();
+    const payment = String(order.payment_status || "").trim().toLowerCase();
+
+    const canCancel =
+        ["pending", "confirmed", "chờ xác nhận", "đã xác nhận"].includes(status)
+        &&
+        ["unpaid", "chưa thanh toán"].includes(payment);
+%>
+
+
+    <% if (canCancel) { %>
+
+        <form
+            action="/orders/<%= order.order_id %>/request-cancel"
+            method="POST"
+            onsubmit="return confirm('Bạn chắc chắn muốn yêu cầu hủy đơn hàng này?')"
+        >
+            <button type="submit" class="customer-cancel-btn">
+                ✕ Yêu cầu hủy đơn hàng
+            </button>
+        </form>
+
+    <% } else if (order.status === "cancel_requested") { %>
+
+        <p class="cancel-notice">
+            Đơn hàng đang chờ Admin xác nhận hủy.
+        </p>
+
+    <% } else if (order.status === "cancelled") { %>
+
+        <p class="cancel-notice">
+            Đơn hàng này đã được hủy.
+        </p>
+
+    <% } else { %>
+
+        <p class="cancel-notice">
+            Đơn hàng hiện không đủ điều kiện yêu cầu hủy.
+        </p>
+
+    <% } %>
+
+</div>
+
+
+</main>
+
+</body>
+</html>

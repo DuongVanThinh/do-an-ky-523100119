@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Quản lý sản phẩm - NỘI THẤT HOME</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<main class="admin-form-page">
+    <a href="/admin/products">← Quay lại sản phẩm</a>
+
+    <h1>
+        <%= product ? "Sửa sản phẩm" : "Thêm sản phẩm" %>
+    </h1>
+
+    <form method="POST"
+          action="<%= product
+            ? '/admin/products/' + product.product_id + '/edit'
+            : '/admin/products/add' %>"
+          class="admin-form">
+
+        <label>Tên sản phẩm</label>
+        <input type="text" name="product_name" required
+               value="<%= product ? product.product_name : '' %>">
+
+        <label>Danh mục</label>
+        <select name="category_id" required>
+            <% categories.forEach(c => { %>
+                <option value="<%= c.category_id %>"
+                    <%= product &&
+                        product.category_id === c.category_id
+                        ? 'selected' : '' %>>
+                    <%= c.category_name %>
+                </option>
+            <% }) %>
+        </select>
+
+        <label>Giá bán (VNĐ)</label>
+        <input type="number" name="price" min="0" step="1000"
+               required value="<%= product ? product.price : '' %>">
+
+        <label>Số lượng tồn kho</label>
+        <input type="number" name="stock" min="0"
+               required value="<%= product ? product.stock : 0 %>">
+
+        <label>Đường dẫn hình ảnh</label>
+        <input type="text" name="image_url"
+               placeholder="/images/sofa.jpg"
+               value="<%= product ? product.image_url : '' %>">
+
+        <label>Mô tả sản phẩm</label>
+        <textarea name="description" rows="5"><%= product ? product.description || '' : '' %></textarea>
+
+        <button type="submit">
+            <%= product ? "Lưu thay đổi" : "Thêm sản phẩm" %>
+        </button>
+    </form>
+</main>
+</body>
+</html>

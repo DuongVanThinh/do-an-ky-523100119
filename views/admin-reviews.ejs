@@ -1,0 +1,168 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Quản lý đánh giá - NỘI THẤT HOME</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+<main class="container admin-review-page">
+
+    <a href="/admin" class="admin-back">
+        ← Quay lại Admin
+    </a>
+
+    <h1>Quản Lý Đánh Giá Sản Phẩm</h1>
+
+    <p class="admin-review-description">
+        Xem, duyệt và xóa đánh giá của khách hàng.
+    </p>
+
+    <div class="admin-review-filter">
+        <a href="/admin/reviews"
+           class="admin-btn">
+            Tất cả
+        </a>
+
+        <a href="/admin/reviews?status=pending"
+           class="admin-btn">
+            Chờ duyệt
+        </a>
+
+        <a href="/admin/reviews?status=approved"
+           class="admin-btn">
+            Đã duyệt
+        </a>
+    </div>
+
+    <div class="admin-table-wrap">
+        <table class="admin-table">
+
+            <thead>
+                <tr>
+                    <th>Mã</th>
+                    <th>Sản phẩm</th>
+                    <th>Khách hàng</th>
+                    <th>Số sao</th>
+                    <th>Nội dung</th>
+                    <th>Ngày đánh giá</th>
+                    <th>Trạng thái</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+            <% if (reviews.length === 0) { %>
+
+                <tr>
+                    <td colspan="8">
+                        Chưa có đánh giá nào.
+                    </td>
+                </tr>
+
+            <% } else { %>
+
+                <% reviews.forEach(r => { %>
+
+                <tr>
+
+                    <td>
+                        #<%= r.review_id %>
+                    </td>
+
+                    <td>
+                        <%= r.product_name %>
+                    </td>
+
+                    <td>
+                        <%= r.full_name %>
+                    </td>
+
+                    <td class="review-stars">
+                        <%= "★".repeat(r.rating) %>
+                        <%= "☆".repeat(5 - r.rating) %>
+                    </td>
+
+                    <td class="review-comment">
+                        <%= r.comment %>
+                    </td>
+
+                    <td>
+                        <%= new Date(r.created_at)
+                            .toLocaleDateString("vi-VN") %>
+                    </td>
+
+                    <td>
+                        <% if (r.is_approved) { %>
+
+                            <span class="review-approved">
+                                Đã duyệt
+                            </span>
+
+                        <% } else { %>
+
+                            <span class="review-pending">
+                                Chờ duyệt
+                            </span>
+
+                        <% } %>
+                    </td>
+
+                    <td>
+                        <div class="review-actions">
+
+                        <% if (!r.is_approved) { %>
+
+                            <form
+                                action="/admin/reviews/<%= r.review_id %>/approve"
+                                method="POST">
+
+                                <button
+                                    type="submit"
+                                    class="review-approve-btn">
+                                    Duyệt
+                                </button>
+
+                            </form>
+
+                        <% } %>
+
+                            <form
+                                action="/admin/reviews/<%= r.review_id %>/delete"
+                                method="POST"
+                                onsubmit="return confirm('Bạn chắc chắn muốn xóa đánh giá này?')">
+
+                                <button
+                                    type="submit"
+                                    class="review-delete-btn">
+                                    Xóa
+                                </button>
+
+                            </form>
+
+                        </div>
+                    </td>
+
+                </tr>
+
+                <% }) %>
+
+            <% } %>
+
+            </tbody>
+
+        </table>
+    </div>
+
+</main>
+
+</body>
+</html>

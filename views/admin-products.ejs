@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <title>Quản lý sản phẩm - NỘI THẤT HOME</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<main class="container admin-list-page">
+
+    <a href="/admin">← Quay lại Admin</a>
+
+    <h1>Quản Lý Sản Phẩm</h1>
+    <a href="/admin/products/add" class="admin-btn">
+    + Thêm sản phẩm
+</a>
+
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>Mã</th>
+                <th>Hình ảnh</th>
+                <th>Tên sản phẩm</th>
+                <th>Giá bán</th>
+                <th>Tồn kho</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <% products.forEach(p => { %>
+                <tr>
+                    <td><%= p.product_id %></td>
+
+                    
+<td>
+    <img
+        src="<%= p.image_url %>"
+        alt="<%= p.product_name %>"
+        style="width:100px; height:80px; object-fit:cover;"
+    >
+</td>
+
+
+                    <td><%= p.product_name %></td>
+
+                    <td>
+                        <%= Number(p.price)
+                            .toLocaleString("vi-VN") %>đ
+                    </td>
+
+                    <td><%= p.stock %></td>
+                    <td>
+    <a class="admin-btn"
+       href="/admin/products/<%= p.product_id %>/edit">
+        Sửa
+    </a>
+</td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+
+</main>
+
+</body>
+</html>

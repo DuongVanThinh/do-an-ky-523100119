@@ -1,0 +1,184 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NỘI THẤT HOME</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<header>
+  <div class="topbar container">
+    <a class="logo" href="/">NỘI THẤT <span>HOME.</span></a>
+
+    <form class="search" action="/products" method="GET">
+      <input name="q" placeholder="Tìm kiếm sản phẩm...">
+      <button>Tìm kiếm</button>
+    </form>
+
+    
+<div class="account">
+
+    <% if (currentUser) { %>
+
+        <a href="/account" class="user-info">
+            <span class="user-icon">👤</span>
+
+            <span class="user-text">
+                <small>Xin chào</small>
+                <strong><%= user.name %></strong>
+            </span>
+        </a>
+
+        <!-- Đơn hàng -->
+        <a href="/orders" class="header-btn order-btn">
+            <span>📦</span>
+            <span>Đơn hàng của tôi</span>
+        </a>
+
+    <% } else { %>
+
+        <a href="/login" class="header-btn order-btn">
+            <span>👤</span>
+            <span>Đăng nhập</span>
+        </a>
+
+    <% } %>
+
+    <!-- Giỏ hàng -->
+    <a href="/cart" class="header-btn cart-btn">
+        <span>🛒</span>
+        <span>Giỏ hàng</span>
+    </a>
+
+
+    <% if (currentUser && currentUser.role === "admin") { %>
+    <a href="/admin" class="admin-link">
+        ⚙ Quản trị Admin
+    </a>
+<% } %>
+
+</div>
+
+  </div>
+
+  <nav class="home-navbar">
+    <div class="home-nav-menu">
+
+        <a href="/" class="home-nav-link active">
+            <span>⌂</span> Trang chủ
+        </a>
+
+        <a href="/products" class="home-nav-link">
+            <span>▦</span> Sản phẩm
+        </a>
+
+        <a href="/products?category=Phòng khách" class="home-nav-link">
+            <span>🛋</span> Phòng khách
+        </a>
+
+        <a href="/products?category=Phòng ngủ" class="home-nav-link">
+            <span>☾</span> Phòng ngủ
+        </a>
+
+        <a href="/products?category=Phòng ăn" class="home-nav-link">
+            <span>♧</span> Phòng ăn
+        </a>
+
+        <a href="/contact" class="home-nav-link">
+            <span>✉</span> Liên hệ
+        </a>
+
+    </div>
+</nav>
+</header>
+
+<section class="hero">
+  <div class="hero-content">
+    <p class="eyebrow">BỘ SƯU TẬP NỘI THẤT 2026</p>
+    <h1>Giải Pháp Nội Thất<br>Cho Mọi Gia Đình</h1>
+    <p>Hiện Đại - Sang Trọng - Tiện Nghi</p>
+    <a class="btn" href="/products">KHÁM PHÁ NGAY →</a>
+  </div>
+</section>
+
+<main class="container">
+  <section class="section">
+    <div class="section-title">
+      <div>
+        <p class="eyebrow">KHÁM PHÁ NỘI THẤT</p>
+        <h2>Sản Phẩm Nổi Bật</h2>
+      </div>
+      <a href="/products">Xem tất cả →</a>
+    </div>
+
+    <div class="products">
+      <% products.forEach(p => { %>
+        <article class="product">
+          <a href="/products/<%= p.product_id %>">
+            <img src="<%= p.image_url %>" alt="<%= p.product_name %>">
+          </a>
+
+          <div class="product-info">
+            <p class="category">NỘI THẤT HOME</p>
+            <h3><%= p.product_name %></h3>
+            <p class="price">
+              <%= Number(p.price).toLocaleString('vi-VN') %>đ
+            </p>
+
+            <a class="btn" href="/products/<%= p.product_id %>">
+              Xem chi tiết
+            </a>
+          </div>
+        </article>
+      <% }) %>
+    </div>
+  </section>
+</main>
+
+<footer id="contact">
+  <div class="container footer-content">
+    <div>
+      <h2>NỘI THẤT HOME.</h2>
+      <p>Kiến tạo không gian sống hiện đại.</p>
+    </div>
+    <div>
+      <h3>Hỗ trợ khách hàng</h3>
+      <p>Chính sách mua hàng</p>
+      <p>Hướng dẫn đặt hàng</p>
+    </div>
+    <div>
+      <h3>Liên hệ</h3>
+      <p>Hà Nội, Việt Nam</p>
+    </div>
+  </div>
+  <p class="copyright">© 2026 NỘI THẤT HOME</p>
+</footer>
+
+<script>
+document.querySelectorAll(".home-nav-link").forEach(link => {
+    link.classList.remove("active");
+
+    const currentUrl = window.location.pathname;
+    const linkUrl = new URL(link.href).pathname;
+
+    if (
+        linkUrl === currentUrl &&
+        !window.location.search
+    ) {
+        link.classList.add("active");
+    }
+
+    if (
+        window.location.search &&
+        link.href === window.location.href
+    ) {
+        link.classList.add("active");
+    }
+});
+</script>
+
+</body>
+</html>

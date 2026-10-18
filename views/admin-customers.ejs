@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <title>Khách hàng - NỘI THẤT HOME</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<main class="container admin-list-page">
+
+    <a href="/admin">← Quay lại Admin</a>
+
+    <h1>Quản Lý Khách Hàng</h1>
+
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>Mã KH</th>
+                <th>Họ tên</th>
+                <th>Email</th>
+                <th>Số điện thoại</th>
+                <th>Quyền</th>
+                <th>Trạng thái</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <% customers.forEach(c => { %>
+                <tr>
+                    <td><%= c.user_id %></td>
+                    <td><%= c.full_name %></td>
+                    <td><%= c.email %></td>
+                    <td><%= c.phone || "Chưa có" %></td>
+                    <td><%= c.role %></td>
+                    
+<td>
+    <%= c.is_active ? "Đang hoạt động" : "Đã khóa" %>
+</td>
+
+<td>
+    <% if (c.role === "customer") { %>
+        <form method="POST"
+              action="/admin/customers/<%= c.user_id %>/toggle">
+
+            <button type="submit" class="admin-btn"
+                    onclick="return confirm('Xác nhận thay đổi trạng thái tài khoản?')">
+                <%= c.is_active ? "Khóa" : "Mở khóa" %>
+            </button>
+        </form>
+    <% } %>
+</td>
+
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+
+</main>
+
+</body>
+</html>

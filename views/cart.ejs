@@ -1,0 +1,179 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <title>Giỏ hàng - NỘI THẤT HOME</title>
+
+    <link rel="stylesheet"
+          href="/css/style.css">
+</head>
+<body>
+
+<header>
+    <div class="topbar container">
+        <a href="/" class="logo">
+            NỘI THẤT <span>HOME.</span>
+        </a>
+
+        <div class="account">
+            <a href="/">Trang chủ</a>
+            <a href="/products">Sản phẩm</a>
+            <a href="/cart">Giỏ hàng</a>
+        </div>
+    </div>
+</header>
+
+<section class="page-banner">
+    <h1>Giỏ Hàng Của Bạn</h1>
+    <p>Trang chủ / Giỏ hàng</p>
+</section>
+
+<main class="container cart-page">
+
+    <% if (items.length === 0) { %>
+
+        <div class="empty-cart">
+            <h2>Giỏ hàng đang trống</h2>
+            <p>Bạn chưa thêm sản phẩm nào vào giỏ hàng.</p>
+
+            <a href="/products" class="add-btn">
+                Tiếp tục mua sắm
+            </a>
+        </div>
+
+    <% } else { %>
+
+        <div class="cart-layout">
+
+            <div class="cart-table-wrap">
+                <table class="cart-table">
+                    <thead>
+                        <tr>
+                            <th>Sản phẩm</th>
+                            <th>Đơn giá</th>
+                            <th>Số lượng</th>
+                            <th>Thành tiền</th>
+                            <th>Xóa</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                    <% items.forEach(item => { %>
+                        <tr>
+                            <td>
+                                <div class="cart-product">
+                                    <img
+                                      src="<%= item.image_url %>"
+                                      alt="<%= item.product_name %>">
+
+                                    <div>
+                                        <h3>
+                                            <%= item.product_name %>
+                                        </h3>
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td>
+                                <%= Number(item.price)
+                                    .toLocaleString('vi-VN') %>đ
+                            </td>
+
+                            <td>
+                                <form action="/cart/update"
+                                      method="POST"
+                                      class="quantity-form">
+
+                                    <input type="hidden"
+                                           name="cart_item_id"
+                                           value="<%= item.cart_item_id %>">
+
+                                    <input type="number"
+                                           name="quantity"
+                                           min="1"
+                                           max="<%= item.stock %>"
+                                           value="<%= item.quantity %>"
+                                           required>
+
+                                    <button type="submit">
+                                        Cập nhật
+                                    </button>
+                                </form>
+                            </td>
+
+                            <td class="cart-subtotal">
+                                <%= (Number(item.price) * item.quantity)
+                                    .toLocaleString('vi-VN') %>đ
+                            </td>
+
+                            <td>
+                                <form action="/cart/delete"
+                                      method="POST">
+
+                                    <input type="hidden"
+                                           name="cart_item_id"
+                                           value="<%= item.cart_item_id %>">
+
+                                    <button type="submit"
+                                            class="delete-btn">
+                                        Xóa
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% }) %>
+                    </tbody>
+                </table>
+            </div>
+
+            <aside class="cart-summary">
+                <h2>Tổng Đơn Hàng</h2>
+
+                <div class="summary-line">
+                    <span>Tạm tính</span>
+                    <strong>
+                        <%= total.toLocaleString('vi-VN') %>đ
+                    </strong>
+                </div>
+
+                <div class="summary-line">
+                    <span>Phí vận chuyển</span>
+                    <span>Tính khi đặt hàng</span>
+                </div>
+
+                <hr>
+
+                <div class="summary-line total-line">
+                    <strong>Tổng tiền hàng</strong>
+                    <strong>
+                        <%= total.toLocaleString('vi-VN') %>đ
+                    </strong>
+                </div>
+
+                <a href="/checkout" class="checkout-btn">
+                    Tiến hành đặt hàng
+                </a>
+
+                <a href="/products" class="continue-shopping">
+                    ← Tiếp tục mua sắm
+                </a>
+            </aside>
+
+        </div>
+
+    <% } %>
+
+</main>
+
+<footer>
+    <p class="copyright">
+        © 2026 NỘI THẤT HOME
+    </p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <title>Đăng ký - NỘI THẤT HOME</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<header>
+    <div class="topbar container">
+        <a href="/" class="logo">
+            NỘI THẤT <span>HOME.</span>
+        </a>
+
+        <a href="/">Về trang chủ</a>
+    </div>
+</header>
+
+<main class="auth-page">
+    <div class="auth-box">
+        <h1>Đăng Ký Tài Khoản</h1>
+
+        <p class="auth-subtitle">
+            Trở thành thành viên của NỘI THẤT HOME
+        </p>
+
+        <% if (error) { %>
+            <p class="auth-error"><%= error %></p>
+        <% } %>
+
+        <form action="/register" method="POST">
+
+            <label>Họ và tên *</label>
+            <input type="text"
+                   name="full_name"
+                   placeholder="Nhập họ và tên"
+                   maxlength="100"
+                   required>
+
+            <label>Email *</label>
+            <input type="email"
+                   name="email"
+                   placeholder="Nhập địa chỉ email"
+                   required>
+
+            <label>Số điện thoại</label>
+            <input type="tel"
+                   name="phone"
+                   placeholder="Nhập số điện thoại"
+                   maxlength="20">
+
+            <label>Mật khẩu *</label>
+            <input type="password"
+                   name="password"
+                   placeholder="Tối thiểu 8 ký tự"
+                   minlength="8"
+                   required>
+
+            <button type="submit" class="auth-btn">
+                Đăng ký
+            </button>
+        </form>
+
+        <p class="auth-bottom">
+            Đã có tài khoản?
+            <a href="/login">Đăng nhập ngay</a>
+        </p>
+    </div>
+</main>
+
+</body>
+</html>

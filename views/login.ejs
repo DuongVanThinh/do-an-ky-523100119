@@ -1,0 +1,69 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <title>Đăng nhập - NỘI THẤT HOME</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<header>
+    <div class="topbar container">
+        <a href="/" class="logo">
+            NỘI THẤT <span>HOME.</span>
+        </a>
+        <a href="/">Về trang chủ</a>
+    </div>
+</header>
+
+<main class="auth-page">
+    <div class="auth-box">
+
+        <h1>Đăng Nhập</h1>
+
+        <p class="auth-subtitle">
+            Chào mừng bạn quay lại NỘI THẤT HOME
+        </p>
+
+        <% if (registered) { %>
+            <p class="auth-success">
+                Đăng ký thành công! Hãy đăng nhập.
+            </p>
+        <% } %>
+
+        <% if (error) { %>
+            <p class="auth-error"><%= error %></p>
+        <% } %>
+
+        <form action="/login" method="POST">
+
+            <label>Email</label>
+            <input type="email"
+                   name="email"
+                   placeholder="Nhập email"
+                   required>
+
+            <label>Mật khẩu</label>
+            <input type="password"
+                   name="password"
+                   placeholder="Nhập mật khẩu"
+                   required>
+
+            <button type="submit" class="auth-btn">
+                Đăng nhập
+            </button>
+        </form>
+
+        <p class="auth-bottom">
+            Chưa có tài khoản?
+            <a href="/register">Đăng ký ngay</a>
+        </p>
+    </div>
+</main>
+
+</body>
+</html>

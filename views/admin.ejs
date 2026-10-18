@@ -1,0 +1,104 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <title>Quản trị - NỘI THẤT HOME</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="admin-body">
+
+<div class="admin-layout">
+
+    <aside class="admin-sidebar">
+        <h2>NỘI THẤT HOME</h2>
+        <p>ADMIN PANEL</p>
+
+        <nav>
+            <a href="/admin">Tổng quan</a>
+            <a href="/admin/products">Quản lý sản phẩm</a>
+            <a href="/admin/customers">Quản lý khách hàng</a>
+            <a href="/admin/orders">Quản lý đơn hàng</a>
+            <a href="/">Xem website</a>
+        </nav>
+
+        <form action="/logout" method="POST">
+            <button type="submit">
+                Đăng xuất
+            </button>
+        </form>
+    </aside>
+
+    <main class="admin-main">
+
+        <div class="admin-heading">
+            <div>
+                <h1>Bảng Điều Khiển</h1>
+                <p>
+                    Xin chào,
+                    <%= admin.name %>
+                </p>
+            </div>
+        </div>
+
+        <div class="admin-stats">
+
+            <div class="admin-stat">
+                <h3>Tổng sản phẩm</h3>
+                <strong><%= totalProducts %></strong>
+            </div>
+
+            <div class="admin-stat">
+                <h3>Khách hàng</h3>
+                <strong><%= totalCustomers %></strong>
+            </div>
+
+            <div class="admin-stat">
+                <h3>Tổng đơn hàng</h3>
+                <strong><%= totalOrders %></strong>
+            </div>
+
+            <div class="admin-stat">
+                <h3>Chờ xác nhận</h3>
+                <strong><%= pendingOrders %></strong>
+            </div>
+
+        </div>
+
+        <section class="admin-section">
+            <h2>Chức năng quản trị</h2>
+
+            <div class="admin-actions">
+                <a href="/admin/products">
+                    Quản lý sản phẩm
+                </a>
+
+                <a href="/admin/customers">
+                    Quản lý khách hàng
+                </a>
+
+                <a href="/admin/orders">
+                    Quản lý đơn hàng
+                </a>
+                <a href="/admin/dashboard"
+   style="display:inline-block; padding:14px 22px;
+          background:#62402c; color:white;
+          border-radius:8px; text-decoration:none;">
+    📊 Thống kê doanh thu
+</a>
+
+<a href="/admin/reviews" class="admin-btn">
+    ⭐ Quản lý đánh giá
+</a>
+
+            </div>
+        </section>
+
+    </main>
+</div>
+
+</body>
+</html>

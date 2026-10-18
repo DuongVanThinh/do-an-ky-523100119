@@ -1,0 +1,149 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <title>Thanh toán - NỘI THẤT HOME</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<header>
+    <div class="topbar container">
+        <a href="/" class="logo">
+            NỘI THẤT <span>HOME.</span>
+        </a>
+
+        <div class="account">
+            <a href="/">Trang chủ</a>
+            <a href="/cart">Giỏ hàng</a>
+            <a href="/account">Tài khoản</a>
+        </div>
+    </div>
+</header>
+
+<main class="container checkout-page">
+
+    <h1>Thông Tin Thanh Toán</h1>
+    <p class="checkout-subtitle">
+        Hoàn tất thông tin để đặt hàng tại NỘI THẤT HOME
+    </p>
+
+    <% if (error) { %>
+        <p class="auth-error"><%= error %></p>
+    <% } %>
+
+    <div class="checkout-layout">
+
+        <section class="checkout-form-box">
+
+            <h2>Thông tin giao hàng</h2>
+
+            <form action="/checkout" method="POST">
+
+                <label>Họ và tên người nhận *</label>
+                <input
+                    type="text"
+                    name="full_name"
+                    value="<%= user.name %>"
+                    maxlength="100"
+                    required>
+
+                <label>Số điện thoại *</label>
+                <input
+                    type="tel"
+                    name="phone"
+                    placeholder="Nhập số điện thoại"
+                    maxlength="20"
+                    required>
+
+                <label>Địa chỉ giao hàng *</label>
+                <textarea
+                    name="address"
+                    rows="4"
+                    placeholder="Số nhà, đường, phường/xã, tỉnh/thành phố"
+                    maxlength="500"
+                    required></textarea>
+
+                <h2>Phương thức thanh toán</h2>
+
+                <div class="payment-option">
+                    <label>
+                        <input
+                            type="radio"
+                            name="payment_method"
+                            value="COD"
+                            checked>
+                        Thanh toán khi nhận hàng (COD)
+                    </label>
+                </div>
+
+                <button
+                    type="submit"
+                    class="place-order-btn">
+                    Xác Nhận Đặt Hàng
+                </button>
+
+            </form>
+
+        </section>
+
+        <aside class="checkout-summary">
+
+            <h2>Đơn Hàng Của Bạn</h2>
+
+            <% items.forEach(item => { %>
+                <div class="checkout-product">
+                    <img
+                        src="<%= item.image_url %>"
+                        alt="<%= item.product_name %>">
+
+                    <div>
+                        <strong>
+                            <%= item.product_name %>
+                        </strong>
+
+                        <p>
+                            Số lượng: <%= item.quantity %>
+                        </p>
+
+                        <span>
+                            <%= (
+                                Number(item.price) * item.quantity
+                            ).toLocaleString("vi-VN") %>đ
+                        </span>
+                    </div>
+                </div>
+            <% }) %>
+
+            <hr>
+
+            <div class="checkout-total">
+                <strong>Tổng tiền hàng:</strong>
+                <strong>
+                    <%= total.toLocaleString("vi-VN") %>đ
+                </strong>
+            </div>
+
+            <p class="shipping-note">
+                Phí vận chuyển sẽ được xác nhận sau.
+            </p>
+
+        </aside>
+
+    </div>
+
+</main>
+
+<footer>
+    <p class="copyright">
+        © 2026 NỘI THẤT HOME
+    </p>
+</footer>
+
+</body>
+</html>
